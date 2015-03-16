@@ -5,7 +5,7 @@ import org.jboss.netty.channel.Channel;
 import ru.terra.tschat.server.frontend.network.netty.ServerWorker;
 import ru.terra.tschat.shared.constants.OpCodes;
 import ru.terra.tschat.shared.packet.AbstractPacket;
-import ru.terra.tschat.shared.packet.interserver.CharRegPacket;
+import ru.terra.tschat.shared.packet.interserver.UserRegPacket;
 import ru.terra.tschat.shared.packet.interserver.HelloPacket;
 import ru.terra.tschat.shared.packet.interserver.RegisterPacket;
 
@@ -55,7 +55,7 @@ public class InterserverFEWorker extends ServerWorker {
                 }
                 break;
                 case OpCodes.InterServer.ISMSG_CHAR_REG: {
-                    Long oldId = (((CharRegPacket) packet).getOldId());
+                    Long oldId = (((UserRegPacket) packet).getOldId());
                     log.info("Registering character with oldid = " + oldId + " and new id = " + packet.getSender());
                     usersHolder.addUserChannel(packet.getSender(), tempUsersHolder.getTempChannel(oldId));
                     tempUsersHolder.deleteTempChannel(oldId);
