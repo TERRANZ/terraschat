@@ -17,5 +17,12 @@
         <module>loginserver</module>
     </modules>
 
+    <dependencies>
+        <dependency>
+            <groupId>ru.terra.tschat</groupId>
+            <artifactId>shared</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
 
 </project>
