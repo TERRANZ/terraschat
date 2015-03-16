@@ -19,9 +19,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>android</groupId>
+            <groupId>com.google.android</groupId>
             <artifactId>android</artifactId>
-            <version>4.0.3_r3</version>
+            <version>4.1.1.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -29,14 +29,27 @@
             <artifactId>acra</artifactId>
             <version>4.5.0</version>
         </dependency>
+        <dependency>
+            <groupId>ru.terra.tschat</groupId>
+            <artifactId>shared</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
-
     <build>
-        <sourceDirectory>src</sourceDirectory>
-
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
+                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                <artifactId>android-maven-plugin</artifactId>
+                <version>3.9.0-rc.1</version>
+                <configuration>
+                    <sdk>
+                        <platform>19</platform>
+                    </sdk>
+                    <undeployBeforeDeploy>true</undeployBeforeDeploy>
+                </configuration>
+                <extensions>true</extensions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
@@ -44,24 +57,7 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-                <artifactId>android-maven-plugin</artifactId>
-                <version>3.8.2</version>
-                <configuration>
-                    <sdk>
-                        <path>${env.ANDROID_HOME}</path>
-                        <platform>15</platform>
-                    </sdk>
-                    <!--androidManifestFile>${project.build.directory}/filtered-manifest/AndroidManifest.xml</androidManifestFile-->
-                </configuration>
-                <extensions>true</extensions>
-                <!--executions>
-                    <execution>
-                        <phase>initialize</phase>
-                    </execution>
-                </executions-->
-            </plugin>
         </plugins>
     </build>
+
 </project>
