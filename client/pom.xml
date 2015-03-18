@@ -2,6 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+
     <parent>
         <artifactId>main</artifactId>
         <groupId>ru.terra.tschat</groupId>
@@ -10,6 +12,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>client</artifactId>
+    <packaging>apk</packaging>
 
     <name>TSChat android</name>
 
@@ -25,36 +28,61 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>ru.terra.tschat</groupId>
+            <artifactId>shared</artifactId>
+            <version>1.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.netty</groupId>
+                    <artifactId>netty</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.reflections</groupId>
+                    <artifactId>reflections</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-configuration</groupId>
+                    <artifactId>commons-configuration</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>ch.acra</groupId>
             <artifactId>acra</artifactId>
             <version>4.5.0</version>
         </dependency>
-        <dependency>
-            <groupId>ru.terra.tschat</groupId>
-            <artifactId>shared</artifactId>
-            <version>1.0.0</version>
-        </dependency>
     </dependencies>
     <build>
+        <sourceDirectory>src</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>com.jayway.maven.plugins.android.generation2</groupId>
                 <artifactId>android-maven-plugin</artifactId>
-                <version>3.9.0-rc.1</version>
+                <version>3.8.2</version>
                 <configuration>
                     <sdk>
-                        <platform>19</platform>
+                        <path>${env.ANDROID_HOME}</path>
+                        <platform>20</platform>
                     </sdk>
-                    <undeployBeforeDeploy>true</undeployBeforeDeploy>
+                    <!--androidManifestFile>${project.build.directory}/filtered-manifest/AndroidManifest.xml</androidManifestFile-->
                 </configuration>
                 <extensions>true</extensions>
+                <!--executions>
+                    <execution>
+                        <phase>initialize</phase>
+                    </execution>
+                </executions-->
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
         </plugins>
