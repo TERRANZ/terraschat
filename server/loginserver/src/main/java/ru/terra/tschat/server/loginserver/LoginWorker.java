@@ -5,19 +5,17 @@ import ru.terra.tschat.interserver.network.netty.InterserverWorker;
 import ru.terra.tschat.shared.constants.OpCodes;
 import ru.terra.tschat.shared.packet.AbstractPacket;
 import ru.terra.tschat.shared.packet.client.LoginPacket;
+import ru.terra.tschat.shared.packet.client.LogoutPacket;
+import ru.terra.tschat.shared.packet.client.RegPacket;
+import ru.terra.tschat.shared.packet.client.UnregPacket;
 import ru.terra.tschat.shared.packet.interserver.BootCharPacket;
-import ru.terra.tschat.shared.packet.interserver.UserRegPacket;
 import ru.terra.tschat.shared.packet.interserver.HelloPacket;
 import ru.terra.tschat.shared.packet.interserver.RegisterPacket;
-import ru.terra.tschat.shared.packet.server.LoginFailedPacket;
-import ru.terra.tschat.shared.packet.server.OkPacket;
-import ru.terra.tschat.shared.persistance.UserLoader;
-import ru.terra.tschat.shared.persistance.impl.JsonCharLoaderImpl;
 
 public class LoginWorker extends InterserverWorker {
 
     private Logger logger = Logger.getLogger(this.getClass());
-    private UserLoader charLoader = new JsonCharLoaderImpl();
+    private LoginHandler loginHandler = LoginHandler.getInstance();
 
     @Override
     public void disconnectedFromChannel() {
@@ -37,39 +35,34 @@ public class LoginWorker extends InterserverWorker {
                 networkManager.sendPacket(registerPacket);
             }
             break;
-            case OpCodes.Client.Login.CMSG_LOGIN: {
-                LoginPacket loginPacket = (LoginPacket) packet;
-                logger.info("Client with login " + loginPacket.getLogin() + " and pass " + loginPacket.getPassword() + " attempting to log in");
-                Long uid = charLoader.findUser(loginPacket.getLogin(), loginPacket.getPassword());
-                logger.info("Client with id " + loginPacket.getSender() + " logged in");
-                if (uid != null) {
-                    logger.info("Client with id " + loginPacket.getSender() + " logged in");
-                    logger.info("Client registered with GUID = " + uid);
-                    OkPacket okPacket = new OkPacket();
-                    okPacket.setSender(uid);
-                    UserRegPacket userRegPacket = new UserRegPacket();
-                    userRegPacket.setSender(uid);
-                    userRegPacket.setOldId(loginPacket.getSender());
-                    networkManager.sendPacket(userRegPacket);
-                    networkManager.sendPacket(okPacket);
-                } else {
-                    logger.info("Unable to find character");
-                    LoginFailedPacket loginFailedPacket = new LoginFailedPacket();
-                    loginFailedPacket.setSender(loginPacket.getSender());
-                    loginFailedPacket.setReason("Unable to find user by password and login");
-                    networkManager.sendPacket(loginFailedPacket);
-                }
+            case OpCodes.InterServer.ISMSG_UNREG_USER: {
+                logger.info("Unregistering char with uid = " + packet.getSender());
             }
             break;
+
+
+            case OpCodes.Client.Login.CMSG_LOGIN: {
+                loginHandler.handleLogin((LoginPacket) packet);
+            }
+            break;
+            case OpCodes.Client.Login.CMSG_LOGOUT: {
+                loginHandler.handleLogout((LogoutPacket) packet);
+            }
+            break;
+            case OpCodes.Client.Login.CMSG_REG: {
+                loginHandler.handleReg((RegPacket) packet);
+            }
+            break;
+            case OpCodes.Client.Login.CMSG_UNREG: {
+                loginHandler.handleUnreg((UnregPacket) packet);
+            }
+            break;
+
             case OpCodes.Client.Login.CSMG_BOOT_ME: {
                 logger.info("Client sent Boot Me to us");
                 BootCharPacket bootCharPacket = new BootCharPacket();
                 bootCharPacket.setSender(packet.getSender());
                 networkManager.sendPacket(bootCharPacket);
-            }
-            break;
-            case OpCodes.InterServer.ISMSG_UNREG_USER: {
-                logger.info("Unregistering char with uid = " + packet.getSender());
             }
             break;
         }

@@ -54,7 +54,7 @@ public class InterserverFEWorker extends ServerWorker {
                     }
                 }
                 break;
-                case OpCodes.InterServer.ISMSG_CHAR_REG: {
+                case OpCodes.InterServer.ISMSG_USER_REG: {
                     Long oldId = (((UserRegPacket) packet).getOldId());
                     log.info("Registering character with oldid = " + oldId + " and new id = " + packet.getSender());
                     usersHolder.addUserChannel(packet.getSender(), tempUsersHolder.getTempChannel(oldId));

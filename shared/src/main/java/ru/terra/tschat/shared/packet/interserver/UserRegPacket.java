@@ -5,7 +5,7 @@ import ru.terra.tschat.shared.annoations.Packet;
 import ru.terra.tschat.shared.constants.OpCodes;
 import ru.terra.tschat.shared.packet.AbstractPacket;
 
-@Packet(opCode = OpCodes.InterServer.ISMSG_CHAR_REG)
+@Packet(opCode = OpCodes.InterServer.ISMSG_USER_REG)
 public class UserRegPacket extends AbstractPacket {
     private Long oldId = 0l;
 
