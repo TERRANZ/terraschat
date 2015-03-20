@@ -44,7 +44,7 @@ public class LoginHandler {
             networkManager.sendPacket(userRegPacket);
             networkManager.sendPacket(okPacket);
         } else {
-            logger.info("Unable to find character");
+            logger.info("Unable to find user");
             LoginFailedPacket loginFailedPacket = new LoginFailedPacket();
             loginFailedPacket.setSender(loginPacket.getSender());
             loginFailedPacket.setReason("Unable to find user by password and login");

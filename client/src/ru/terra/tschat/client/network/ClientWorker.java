@@ -1,5 +1,6 @@
 package ru.terra.tschat.client.network;
 
+import android.util.Log;
 import ru.terra.tschat.client.chat.ChatManager;
 import ru.terra.tschat.client.chat.ClientStateHolder;
 import ru.terra.tschat.interserver.network.NetworkManager;
@@ -7,6 +8,7 @@ import ru.terra.tschat.interserver.network.netty.InterserverWorker;
 import ru.terra.tschat.shared.constants.OpCodes;
 import ru.terra.tschat.shared.packet.AbstractPacket;
 import ru.terra.tschat.shared.packet.client.BootMePacket;
+import ru.terra.tschat.shared.packet.server.LoginFailedPacket;
 import ru.terra.tschat.shared.packet.server.UserBootPacket;
 
 /**
@@ -50,7 +52,7 @@ public class ClientWorker extends InterserverWorker {
             }
             break;
             case OpCodes.Server.Login.SMSG_LOGIN_FAILED: {
-//                logger.error("Unable to login: " + ((LoginFailedPacket) packet).getReason());
+                Log.e("ClientWorker", "Unable to login: " + ((LoginFailedPacket) packet).getReason());
             }
             break;
             case OpCodes.Server.SMSG_CHAT_MESSAGE: {

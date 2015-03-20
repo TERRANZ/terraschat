@@ -26,6 +26,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ChatActivity"/>
+        <activity android:name=".activity.LoginActivity"/>
         <service android:name=".service.ChatService"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
