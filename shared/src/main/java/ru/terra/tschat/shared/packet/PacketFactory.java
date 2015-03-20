@@ -1,24 +1,19 @@
 package ru.terra.tschat.shared.packet;
 
-import org.apache.log4j.Logger;
 import ru.terra.tschat.shared.annoations.Packet;
-import ru.terra.tschat.shared.core.ClassSearcher;
+import ru.terra.tschat.shared.context.SharedContext;
+import ru.terra.tschat.shared.core.AbstractClassSearcher;
 
 import java.util.HashMap;
 
 public class PacketFactory {
     private static PacketFactory instance = new PacketFactory();
     private HashMap<Integer, AbstractPacket> packets = new HashMap<>();
-    private Logger logger = Logger.getLogger(this.getClass());
 
     private PacketFactory() {
-        logger.info("Starting packet factory...");
-        ClassSearcher<AbstractPacket> searcher = new ClassSearcher<>();
-        for (AbstractPacket ap : searcher.load("ru.terra.tschat.shared.packet", Packet.class)) {
-            Integer opCode = ap.getClass().getAnnotation(Packet.class).opCode();
-            logger.info("Loaded packet " + ap.getClass().getName() + " for opcode " + opCode);
-            packets.put(opCode, ap);
-        }
+        AbstractClassSearcher<AbstractPacket> searcher = SharedContext.getInstance().getClassSearcher();
+        for (AbstractPacket ap : searcher.load("ru.terra.tschat.shared.packet", Packet.class))
+            packets.put(ap.getClass().getAnnotation(Packet.class).opCode(), ap);
     }
 
     public static PacketFactory getInstance() {

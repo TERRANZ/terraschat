@@ -6,7 +6,10 @@ import ru.terra.tschat.client.chat.ClientStateHolder;
 import ru.terra.tschat.client.constants.C;
 import ru.terra.tschat.client.network.ClientWorker;
 import ru.terra.tschat.client.network.GUIDHOlder;
+import ru.terra.tschat.client.util.AndroidClassSearcher;
 import ru.terra.tschat.interserver.network.NetworkManager;
+import ru.terra.tschat.shared.context.SharedContext;
+import ru.terra.tschat.shared.packet.AbstractPacket;
 import ru.terra.tschat.shared.packet.client.ChatSayPacket;
 import ru.terra.tschat.shared.packet.client.LoginPacket;
 
@@ -24,6 +27,7 @@ public class ChatService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        SharedContext.getInstance().setClassSearcher(new AndroidClassSearcher<AbstractPacket>(getApplicationContext()));
         ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.INIT);
         NetworkManager.getInstance().start(ClientWorker.class, C.ip, 12345);
 

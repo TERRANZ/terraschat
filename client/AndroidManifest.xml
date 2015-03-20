@@ -26,6 +26,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ChatActivity"/>
+        <service android:name=".service.ChatService"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA"/>

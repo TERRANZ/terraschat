@@ -1,6 +1,5 @@
 package ru.terra.tschat.interserver.network.netty;
 
-import org.apache.log4j.Logger;
 import org.jboss.netty.channel.*;
 import ru.terra.tschat.shared.packet.AbstractPacket;
 
@@ -9,7 +8,6 @@ public class InterserverHandler extends SimpleChannelUpstreamHandler {
     private InterserverWorker worker;
     private PacketFrameDecoder decoder;
     private PacketFrameEncoder encoder;
-    private Logger log = Logger.getLogger(InterserverHandler.class);
     private Class<? extends InterserverWorker> workerClass;
 
     public PacketFrameDecoder getDecoder() {
@@ -60,6 +58,6 @@ public class InterserverHandler extends SimpleChannelUpstreamHandler {
         // На канале произошло исключение. Выводим ошибку, закрываем канал.
         // Server.logger.log(Level.WARNING, "Exception from downstream", e.getCause());
         ctx.getChannel().close();
-        log.info("exceptionCaught", e.getCause());
+        e.getCause().printStackTrace();
     }
 }
