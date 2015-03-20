@@ -9,7 +9,7 @@ import ru.terra.tschat.shared.packet.AbstractPacket;
  * Date: 14.01.14
  * Time: 13:45
  */
-@Packet(opCode = OpCodes.Client.Chat.CMSG_SAY)
+@Packet(opCode = OpCodes.Client.Chat.SAY)
 public class ChatSayPacket extends AbstractPacket {
     private String message = "";
     private long to = 0L;

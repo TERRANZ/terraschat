@@ -14,9 +14,9 @@ public class PacketFactory {
     private PacketFactory() {
         logger.info("Starting packet factory...");
         ClassSearcher<AbstractPacket> searcher = new ClassSearcher<>();
-        for (AbstractPacket ap : searcher.load("ru.terra.universal.shared.packet", Packet.class)) {
+        for (AbstractPacket ap : searcher.load("ru.terra.tschat.shared.packet", Packet.class)) {
             Integer opCode = ap.getClass().getAnnotation(Packet.class).opCode();
-            //logger.info("Loaded packet " + ap.getClass().getName() + " for opcode " + opCode);
+            logger.info("Loaded packet " + ap.getClass().getName() + " for opcode " + opCode);
             packets.put(opCode, ap);
         }
     }

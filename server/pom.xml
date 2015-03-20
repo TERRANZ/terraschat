@@ -15,6 +15,7 @@
         <module>frontend</module>
         <module>chatserver</module>
         <module>loginserver</module>
+        <module>userserver</module>
     </modules>
 
     <dependencies>

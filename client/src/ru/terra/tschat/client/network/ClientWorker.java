@@ -7,7 +7,7 @@ import ru.terra.tschat.interserver.network.netty.InterserverWorker;
 import ru.terra.tschat.shared.constants.OpCodes;
 import ru.terra.tschat.shared.packet.AbstractPacket;
 import ru.terra.tschat.shared.packet.client.BootMePacket;
-import ru.terra.tschat.shared.packet.server.CharBootPacket;
+import ru.terra.tschat.shared.packet.server.UserBootPacket;
 
 /**
  * User: Vadim Korostelev
@@ -45,7 +45,7 @@ public class ClientWorker extends InterserverWorker {
             }
             break;
             case OpCodes.Server.SMSG_CHAR_BOOT: {
-                ChatManager.getInstance().setUserInfo(((CharBootPacket) packet).getPlayerInfo());
+                ChatManager.getInstance().setUserInfo(((UserBootPacket) packet).getPlayerInfo());
                 ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.CHAR_BOOT);
             }
             break;

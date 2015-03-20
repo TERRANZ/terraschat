@@ -19,11 +19,9 @@ public interface OpCodes {
         }
 
         public interface Chat {
-            public static final int CMSG_SAY = 202;
-            public static final int CMSG_WISP = 203;
+            public static final int SAY = 202;
+            public static final int WISP = 203;
         }
-
-
     }
 
     public interface Server {

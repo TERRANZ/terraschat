@@ -20,13 +20,13 @@ public class FrontEndServerWorker extends ServerWorker {
         logger.info("User disconnected");
         Long removedChar = usersHolder.removeChar(removedChannel);
         if (removedChar != null) {
-            Channel charChannel = channelsHolder.getChannel(OpCodes.UserOpcodeStart);
+            Channel userChannel = channelsHolder.getChannel(OpCodes.UserOpcodeStart);
             Channel chatChannel = channelsHolder.getChannel(OpCodes.ChatOpcodeStart);
             Channel loginChannel = channelsHolder.getChannel(OpCodes.LoginOpcodeStart);
             UnregCharPacket unregCharPacket = new UnregCharPacket();
             unregCharPacket.setSender(removedChar);
-            if (charChannel != null)
-                charChannel.write(unregCharPacket);
+            if (userChannel != null)
+                userChannel.write(unregCharPacket);
             if (chatChannel != null)
                 chatChannel.write(unregCharPacket);
             if (loginChannel != null)
