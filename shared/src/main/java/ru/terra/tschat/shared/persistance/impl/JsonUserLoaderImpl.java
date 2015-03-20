@@ -17,7 +17,7 @@ import java.util.UUID;
  * Date: 25.04.14
  * Time: 14:39
  */
-public class JsonCharLoaderImpl extends FilePersister implements UserLoader {
+public class JsonUserLoaderImpl extends FilePersister implements UserLoader {
 
     private JSONDeserializer<List<UserInfo>> deserializer = new JSONDeserializer<>();
     private String fileName = Config.getConfig().getValue(ConfigConstants.CHARACTERS_FILE, ConfigConstants.CHARACTERS_FILE_DEFAULT);

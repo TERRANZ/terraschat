@@ -8,10 +8,10 @@ import ru.terra.tschat.shared.packet.AbstractPacket;
 import ru.terra.tschat.shared.packet.interserver.HelloPacket;
 import ru.terra.tschat.shared.packet.interserver.RegisterPacket;
 import ru.terra.tschat.shared.packet.server.UserBootPacket;
-import ru.terra.tschat.shared.persistance.CharSaver;
+import ru.terra.tschat.shared.persistance.UserSaver;
 import ru.terra.tschat.shared.persistance.UserLoader;
-import ru.terra.tschat.shared.persistance.impl.JsonCharLoaderImpl;
-import ru.terra.tschat.shared.persistance.impl.JsonCharSaverImpl;
+import ru.terra.tschat.shared.persistance.impl.JsonUserLoaderImpl;
+import ru.terra.tschat.shared.persistance.impl.JsonUserSaverImpl;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,9 +19,9 @@ import java.util.List;
 public class UsersWorker extends InterserverWorker {
 
     private Logger log = Logger.getLogger(this.getClass());
-    private List<UserInfo> players = new LinkedList<>();
-    private UserLoader charLoader = new JsonCharLoaderImpl();
-    private CharSaver charSaver = new JsonCharSaverImpl();
+    private List<UserInfo> users = new LinkedList<>();
+    private UserLoader userLoader = new JsonUserLoaderImpl();
+    private UserSaver userSaver = new JsonUserSaverImpl();
 
     @Override
     public void disconnectedFromChannel() {
@@ -43,24 +43,24 @@ public class UsersWorker extends InterserverWorker {
             break;
             case OpCodes.InterServer.ISMSG_BOOT_USER: {
                 log.info("Registering character with uid = " + packet.getSender());
-                UserInfo userInfo = charLoader.loadUser(packet.getSender());
+                UserInfo userInfo = userLoader.loadUser(packet.getSender());
                 UserBootPacket userBootPacket = new UserBootPacket();
                 userBootPacket.setUserInfo(userInfo);
                 userBootPacket.setSender(packet.getSender());
                 networkManager.sendPacket(userBootPacket);
-                players.add(userInfo);
+                users.add(userInfo);
             }
             break;
             case OpCodes.InterServer.ISMSG_UNREG_USER: {
                 log.info("Unregistering char with uid = " + packet.getSender());
                 UserInfo playerInfoToRemove = null;
-                for (UserInfo playerInfo : players)
+                for (UserInfo playerInfo : users)
                     if (playerInfo.getUID().equals(packet.getSender())) {
-                        charSaver.save(playerInfo);
+                        userSaver.save(playerInfo);
                         playerInfoToRemove = playerInfo;
                     }
                 if (playerInfoToRemove != null)
-                    players.remove(playerInfoToRemove);
+                    users.remove(playerInfoToRemove);
 
             }
             break;

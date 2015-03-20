@@ -5,7 +5,7 @@ import ru.terra.tschat.shared.config.Config;
 import ru.terra.tschat.shared.config.ConfigConstants;
 import ru.terra.tschat.shared.entity.UserInfo;
 import ru.terra.tschat.shared.persistance.UserLoader;
-import ru.terra.tschat.shared.persistance.CharSaver;
+import ru.terra.tschat.shared.persistance.UserSaver;
 import ru.terra.tschat.shared.persistance.FilePersister;
 
 import java.io.*;
@@ -15,13 +15,13 @@ import java.util.List;
  * Date: 25.04.14
  * Time: 14:46
  */
-public class JsonCharSaverImpl extends FilePersister implements CharSaver {
+public class JsonUserSaverImpl extends FilePersister implements UserSaver {
     private JSONSerializer jsonSerializer = new JSONSerializer();
     private String fileName = Config.getConfig().getValue(ConfigConstants.CHARACTERS_FILE, ConfigConstants.CHARACTERS_FILE_DEFAULT);
 
     @Override
     public void save(UserInfo playerInfo) {
-        UserLoader charLoader = new JsonCharLoaderImpl();
+        UserLoader charLoader = new JsonUserLoaderImpl();
         List<UserInfo> playerInfos = charLoader.loadUsers();
         UserInfo playerInfoToRemove = null;
         for (UserInfo pi : playerInfos)
@@ -43,5 +43,10 @@ public class JsonCharSaverImpl extends FilePersister implements CharSaver {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void delete(String uid) {
+
     }
 }

@@ -1,6 +1,7 @@
-package ru.terra.tschat.shared.core;
+package ru.terra.tschat.shared.core.impl;
 
 import eu.infomas.annotation.AnnotationDetector;
+import ru.terra.tschat.shared.core.AbstractClassSearcher;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;

@@ -10,7 +10,7 @@ import ru.terra.tschat.shared.packet.interserver.UserRegPacket;
 import ru.terra.tschat.shared.packet.server.LoginFailedPacket;
 import ru.terra.tschat.shared.packet.server.OkPacket;
 import ru.terra.tschat.shared.persistance.UserLoader;
-import ru.terra.tschat.shared.persistance.impl.JsonCharLoaderImpl;
+import ru.terra.tschat.shared.persistance.impl.JsonUserLoaderImpl;
 
 /**
  * Date: 20.03.15
@@ -19,7 +19,7 @@ import ru.terra.tschat.shared.persistance.impl.JsonCharLoaderImpl;
 public class LoginHandler {
     private static LoginHandler instance = new LoginHandler();
     private Logger logger = Logger.getLogger(this.getClass());
-    private UserLoader charLoader = new JsonCharLoaderImpl();
+    private UserLoader charLoader = new JsonUserLoaderImpl();
     private NetworkManager networkManager = NetworkManager.getInstance();
 
     private LoginHandler() {

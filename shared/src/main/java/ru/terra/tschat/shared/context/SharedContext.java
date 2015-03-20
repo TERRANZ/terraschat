@@ -1,7 +1,7 @@
 package ru.terra.tschat.shared.context;
 
 import ru.terra.tschat.shared.core.AbstractClassSearcher;
-import ru.terra.tschat.shared.core.InfomasClassSearcher;
+import ru.terra.tschat.shared.core.impl.InfomasClassSearcher;
 
 /**
  * Date: 20.03.15
