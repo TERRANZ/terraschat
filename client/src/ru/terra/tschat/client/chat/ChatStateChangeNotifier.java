@@ -5,5 +5,5 @@ package ru.terra.tschat.client.chat;
  * Time: 15:43
  */
 public interface ChatStateChangeNotifier {
-    public void onGameStateChange(ChatStateHolder.GameState oldgs, ChatStateHolder.GameState newgs);
+    public void onGameStateChange(ClientStateHolder.ClientState oldgs, ClientStateHolder.ClientState newgs);
 }

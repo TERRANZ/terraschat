@@ -1,7 +1,7 @@
 package ru.terra.tschat.client.network;
 
 import ru.terra.tschat.client.chat.ChatManager;
-import ru.terra.tschat.client.chat.ChatStateHolder;
+import ru.terra.tschat.client.chat.ClientStateHolder;
 import ru.terra.tschat.interserver.network.NetworkManager;
 import ru.terra.tschat.interserver.network.netty.InterserverWorker;
 import ru.terra.tschat.shared.constants.OpCodes;
@@ -24,8 +24,8 @@ public class ClientWorker extends InterserverWorker {
     public void acceptPacket(AbstractPacket packet) {
         switch (packet.getOpCode()) {
             case OpCodes.Server.SMSG_OK: {
-                ChatStateHolder.GameState gs = ChatStateHolder.getInstance().getGameState();
-                switch (gs) {
+                ClientStateHolder.ClientState clientState = ClientStateHolder.getInstance().getClientState();
+                switch (clientState) {
                     case INIT:
                         GUIDHOlder.getInstance().setGuid(packet.getSender());
                         break;
@@ -34,24 +34,19 @@ public class ClientWorker extends InterserverWorker {
                         BootMePacket bootMePacket = new BootMePacket();
                         bootMePacket.setSender(GUIDHOlder.getInstance().getGuid());
                         NetworkManager.getInstance().sendPacket(bootMePacket);
-                        ChatStateHolder.getInstance().setGameState(ChatStateHolder.GameState.LOGGED_IN);
+                        ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.LOGGED_IN);
                         break;
                     case LOGGED_IN:
                         break;
-                    case CHAR_BOOT:
-                        break;
-                    case SERVER_SELECTED:
-                        ChatStateHolder.getInstance().setGameState(ChatStateHolder.GameState.IN_WORLD);
-                        break;
-                    case IN_WORLD:
+                    case IN_CHAT:
+                        ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.IN_CHAT);
                         break;
                 }
             }
             break;
             case OpCodes.Server.SMSG_CHAR_BOOT: {
                 ChatManager.getInstance().setUserInfo(((CharBootPacket) packet).getPlayerInfo());
-//                GuiManager.getInstance().publicWorlds(((CharBootPacket) packet).getWorlds());
-                ChatStateHolder.getInstance().setGameState(ChatStateHolder.GameState.CHAR_BOOT);
+                ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.CHAR_BOOT);
             }
             break;
             case OpCodes.Server.Login.SMSG_LOGIN_FAILED: {
