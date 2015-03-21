@@ -5,9 +5,9 @@ import org.jboss.netty.channel.Channel;
 import ru.terra.tschat.server.frontend.network.netty.ServerWorker;
 import ru.terra.tschat.shared.constants.OpCodes;
 import ru.terra.tschat.shared.packet.AbstractPacket;
-import ru.terra.tschat.shared.packet.interserver.UserRegPacket;
 import ru.terra.tschat.shared.packet.interserver.HelloPacket;
 import ru.terra.tschat.shared.packet.interserver.RegisterPacket;
+import ru.terra.tschat.shared.packet.interserver.UserRegPacket;
 
 public class InterserverFEWorker extends ServerWorker {
 
@@ -68,7 +68,9 @@ public class InterserverFEWorker extends ServerWorker {
             } else {
                 if (packet.getSender().equals(0L)) {
                     //log.info("Sending packet " + packet.getOpCode() + " to all players");
-                    usersHolder.getChannels().forEach(chan -> usersHolder.getUserChannel(chan).write(packet));
+                    for (Long chan : usersHolder.getChannels()) {
+                        usersHolder.getUserChannel(chan).write(packet);
+                    }
                 } else {
                     usersHolder.getUserChannel(packet.getSender()).write(packet);
                 }
