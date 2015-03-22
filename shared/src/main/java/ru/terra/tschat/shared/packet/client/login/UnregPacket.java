@@ -1,13 +1,16 @@
-package ru.terra.tschat.shared.packet.client;
+package ru.terra.tschat.shared.packet.client.login;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 import ru.terra.tschat.shared.annoations.Packet;
 import ru.terra.tschat.shared.constants.OpCodes;
 import ru.terra.tschat.shared.packet.AbstractPacket;
 
-@Packet(opCode = OpCodes.Client.Login.CMSG_LOGIN)
-public class LoginPacket extends AbstractPacket {
-
+/**
+ * Date: 20.03.15
+ * Time: 15:25
+ */
+@Packet(opCode = OpCodes.Client.Login.CMSG_UNREG)
+public class UnregPacket extends AbstractPacket {
     private String login = "", password = "";
 
     @Override

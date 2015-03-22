@@ -1,4 +1,4 @@
-package ru.terra.tschat.shared.packet.client;
+package ru.terra.tschat.shared.packet.client.login;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 import ru.terra.tschat.shared.annoations.Packet;

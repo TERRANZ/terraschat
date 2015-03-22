@@ -2,10 +2,10 @@ package ru.terra.tschat.server.loginserver;
 
 import org.apache.log4j.Logger;
 import ru.terra.tschat.interserver.network.NetworkManager;
-import ru.terra.tschat.shared.packet.client.LoginPacket;
-import ru.terra.tschat.shared.packet.client.LogoutPacket;
-import ru.terra.tschat.shared.packet.client.RegPacket;
-import ru.terra.tschat.shared.packet.client.UnregPacket;
+import ru.terra.tschat.shared.packet.client.login.LoginPacket;
+import ru.terra.tschat.shared.packet.client.login.LogoutPacket;
+import ru.terra.tschat.shared.packet.client.login.RegPacket;
+import ru.terra.tschat.shared.packet.client.login.UnregPacket;
 import ru.terra.tschat.shared.packet.interserver.UserRegPacket;
 import ru.terra.tschat.shared.packet.server.LoginFailedPacket;
 import ru.terra.tschat.shared.packet.server.OkPacket;

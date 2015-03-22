@@ -4,8 +4,8 @@ import flexjson.JSONDeserializer;
 import ru.terra.tschat.shared.config.Config;
 import ru.terra.tschat.shared.config.ConfigConstants;
 import ru.terra.tschat.shared.entity.UserInfo;
-import ru.terra.tschat.shared.persistance.UserLoader;
 import ru.terra.tschat.shared.persistance.FilePersister;
+import ru.terra.tschat.shared.persistance.UserLoader;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -27,10 +27,11 @@ public class JsonUserLoaderImpl extends FilePersister implements UserLoader {
         for (UserInfo playerInfo : loadUsers())
             if (playerInfo.getUID().equals(uid))
                 return playerInfo;
-        UserInfo playerInfo = new UserInfo();
-        playerInfo.setUID(uid);
-        playerInfo.setName("My Cool player " + playerInfo.getUID());
-        return playerInfo;
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUID(uid);
+        userInfo.setName("My Cool player " + userInfo.getUID());
+        userInfo.getContacts().add(0l);
+        return userInfo;
     }
 
     @Override

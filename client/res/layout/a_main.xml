@@ -3,5 +3,26 @@
                 android:layout_height="fill_parent">
 
 
-
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Terra Secure Chat"
+            android:id="@+id/textView" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:id="@+id/btnLogin" android:layout_below="@+id/textView" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" android:layout_margin="5dp"
+            android:onClick="login"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reg"
+            android:id="@+id/btnReg" android:layout_below="@+id/btnLogin" android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" android:layout_margin="5dp" android:onClick="reg"/>
 </RelativeLayout>

@@ -55,8 +55,10 @@ public class ClientWorker extends InterserverWorker {
                 Log.e("ClientWorker", "Unable to login: " + ((LoginFailedPacket) packet).getReason());
             }
             break;
-            case OpCodes.Server.SMSG_CHAT_MESSAGE: {
-
+            case OpCodes.Server.Chat.SMSG_CHAT_MESSAGE: {
+            }
+            break;
+            case OpCodes.Server.User.SMSG_USER_CONTACTS: {
             }
             break;
         }

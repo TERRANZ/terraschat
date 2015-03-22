@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import ru.terra.tschat.interserver.network.netty.InterserverWorker;
 import ru.terra.tschat.shared.constants.OpCodes;
 import ru.terra.tschat.shared.packet.AbstractPacket;
-import ru.terra.tschat.shared.packet.client.ChatSayPacket;
+import ru.terra.tschat.shared.packet.client.chat.ChatSayPacket;
 import ru.terra.tschat.shared.packet.interserver.HelloPacket;
 import ru.terra.tschat.shared.packet.interserver.RegisterPacket;
 
@@ -39,14 +39,14 @@ public class ChatWorker extends InterserverWorker {
                 log.info("Unregistering char with uid = " + packet.getSender());
             }
             break;
-            case OpCodes.Client.Chat.SAY: {
+            case OpCodes.Client.Chat.CMSG_SAY: {
                 ChatSayPacket chatSayPacket = (ChatSayPacket) packet;
                 log.info("Player " + packet.getSender() + " says: " + chatSayPacket.getMessage() + " to: " + chatSayPacket.getTo());
                 chatSayPacket.setSender(chatSayPacket.getTo());
                 networkManager.sendPacket(chatSayPacket);
             }
             break;
-            case OpCodes.Client.Chat.WISP: {
+            case OpCodes.Client.Chat.CMSG_WISP: {
             }
             break;
         }

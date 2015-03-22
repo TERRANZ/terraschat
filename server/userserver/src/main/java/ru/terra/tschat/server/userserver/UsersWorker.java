@@ -8,8 +8,8 @@ import ru.terra.tschat.shared.packet.AbstractPacket;
 import ru.terra.tschat.shared.packet.interserver.HelloPacket;
 import ru.terra.tschat.shared.packet.interserver.RegisterPacket;
 import ru.terra.tschat.shared.packet.server.UserBootPacket;
-import ru.terra.tschat.shared.persistance.UserSaver;
 import ru.terra.tschat.shared.persistance.UserLoader;
+import ru.terra.tschat.shared.persistance.UserSaver;
 import ru.terra.tschat.shared.persistance.impl.JsonUserLoaderImpl;
 import ru.terra.tschat.shared.persistance.impl.JsonUserSaverImpl;
 
@@ -22,6 +22,7 @@ public class UsersWorker extends InterserverWorker {
     private List<UserInfo> users = new LinkedList<>();
     private UserLoader userLoader = new JsonUserLoaderImpl();
     private UserSaver userSaver = new JsonUserSaverImpl();
+    private UsersHandler handler = UsersHandler.getInstance();
 
     @Override
     public void disconnectedFromChannel() {
@@ -42,7 +43,7 @@ public class UsersWorker extends InterserverWorker {
             }
             break;
             case OpCodes.InterServer.ISMSG_BOOT_USER: {
-                log.info("Registering character with uid = " + packet.getSender());
+                log.info("Registering user with uid = " + packet.getSender());
                 UserInfo userInfo = userLoader.loadUser(packet.getSender());
                 UserBootPacket userBootPacket = new UserBootPacket();
                 userBootPacket.setUserInfo(userInfo);
@@ -52,7 +53,7 @@ public class UsersWorker extends InterserverWorker {
             }
             break;
             case OpCodes.InterServer.ISMSG_UNREG_USER: {
-                log.info("Unregistering char with uid = " + packet.getSender());
+                log.info("Unregistering user with uid = " + packet.getSender());
                 UserInfo playerInfoToRemove = null;
                 for (UserInfo playerInfo : users)
                     if (playerInfo.getUID().equals(packet.getSender())) {
@@ -61,10 +62,19 @@ public class UsersWorker extends InterserverWorker {
                     }
                 if (playerInfoToRemove != null)
                     users.remove(playerInfoToRemove);
-
+            }
+            break;
+            case OpCodes.Client.User.CMSG_GET_CONTACTS: {
+                handler.getRoster(getUser(packet.getSender()));
             }
             break;
         }
     }
 
+    private UserInfo getUser(Long guid) {
+        for (UserInfo playerInfo : users)
+            if (playerInfo.getUID().equals(guid))
+                return playerInfo;
+        return null;
+    }
 }
