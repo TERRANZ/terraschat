@@ -16,12 +16,12 @@ public class OkPacket extends AbstractPacket {
     }
 
     @Override
-    public void get(ChannelBuffer buffer) {
+    public void onRead(ChannelBuffer buffer) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public void send(ChannelBuffer buffer) {
+    public void onSend(ChannelBuffer buffer) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 }

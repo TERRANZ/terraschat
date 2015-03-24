@@ -25,12 +25,12 @@ public class LoginFailedPacket extends AbstractPacket {
     }
 
     @Override
-    public void get(ChannelBuffer buffer) {
+    public void onRead(ChannelBuffer buffer) {
         reason = readString(buffer);
     }
 
     @Override
-    public void send(ChannelBuffer buffer) {
+    public void onSend(ChannelBuffer buffer) {
         writeString(buffer, reason);
     }
 }

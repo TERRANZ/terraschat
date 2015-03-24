@@ -1,8 +1,9 @@
 package ru.terra.tschat.client.network;
 
 import android.util.Log;
-import ru.terra.tschat.client.chat.ChatManager;
-import ru.terra.tschat.client.chat.ClientStateHolder;
+import ru.terra.tschat.client.chat.ChatHandler;
+import ru.terra.tschat.client.network.client.ClientManager;
+import ru.terra.tschat.client.network.client.ClientStateHolder;
 import ru.terra.tschat.interserver.network.NetworkManager;
 import ru.terra.tschat.interserver.network.netty.InterserverWorker;
 import ru.terra.tschat.shared.constants.OpCodes;
@@ -10,6 +11,7 @@ import ru.terra.tschat.shared.packet.AbstractPacket;
 import ru.terra.tschat.shared.packet.client.BootMePacket;
 import ru.terra.tschat.shared.packet.server.LoginFailedPacket;
 import ru.terra.tschat.shared.packet.server.UserBootPacket;
+import ru.terra.tschat.shared.packet.server.chat.ChatMessagePacket;
 
 /**
  * User: Vadim Korostelev
@@ -47,7 +49,7 @@ public class ClientWorker extends InterserverWorker {
             }
             break;
             case OpCodes.Server.SMSG_CHAR_BOOT: {
-                ChatManager.getInstance().setUserInfo(((UserBootPacket) packet).getPlayerInfo());
+                ClientManager.getInstance().setUserInfo(((UserBootPacket) packet).getPlayerInfo());
                 ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.CHAR_BOOT);
             }
             break;
@@ -56,6 +58,7 @@ public class ClientWorker extends InterserverWorker {
             }
             break;
             case OpCodes.Server.Chat.SMSG_CHAT_MESSAGE: {
+                ChatHandler.getInstance().notify((ChatMessagePacket) packet);
             }
             break;
             case OpCodes.Server.User.SMSG_USER_CONTACTS: {

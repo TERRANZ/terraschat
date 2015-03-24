@@ -1,8 +1,8 @@
-package ru.terra.tschat.client.chat;
+package ru.terra.tschat.client.network.client;
 
 
 public class ClientStateHolder {
-    private ChatStateChangeNotifier notifier;
+    private ClientStateChangeNotifier notifier;
 
     public static enum ClientState {
         INIT, LOGIN, LOGGED_IN, CHAR_BOOT, IN_CHAT;
@@ -29,16 +29,16 @@ public class ClientStateHolder {
     public void setClientState(ClientState clientState) {
         synchronized (clientState) {
             if (notifier != null)
-                notifier.onGameStateChange(getClientState(), clientState);
+                notifier.onClientStateChange(getClientState(), clientState);
             this.clientState = clientState;
         }
     }
 
-    public ChatStateChangeNotifier getNotifier() {
+    public ClientStateChangeNotifier getNotifier() {
         return notifier;
     }
 
-    public void setNotifier(ChatStateChangeNotifier notifier) {
+    public void setNotifier(ClientStateChangeNotifier notifier) {
         this.notifier = notifier;
     }
 }

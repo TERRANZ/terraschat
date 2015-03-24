@@ -14,7 +14,7 @@ public class RegPacket extends AbstractPacket {
     private String login = "", password = "", mail = "", phone = "";
 
     @Override
-    public void get(ChannelBuffer buffer) {
+    public void onRead(ChannelBuffer buffer) {
         login = readString(buffer);
         password = readString(buffer);
         mail = readString(buffer);
@@ -22,7 +22,7 @@ public class RegPacket extends AbstractPacket {
     }
 
     @Override
-    public void send(ChannelBuffer buffer) {
+    public void onSend(ChannelBuffer buffer) {
         writeString(buffer, login);
         writeString(buffer, password);
         writeString(buffer, mail);

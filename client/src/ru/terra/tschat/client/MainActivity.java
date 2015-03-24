@@ -12,7 +12,7 @@ import android.view.View;
 import ru.terra.tschat.client.activity.ChatActivity;
 import ru.terra.tschat.client.activity.LoginActivity;
 import ru.terra.tschat.client.activity.RegActivity;
-import ru.terra.tschat.client.chat.ClientStateHolder;
+import ru.terra.tschat.client.network.client.ClientStateHolder;
 import ru.terra.tschat.client.service.ChatService;
 
 /**

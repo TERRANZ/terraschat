@@ -30,12 +30,12 @@ public class UpdatePlayerPacket extends AbstractPacket {
     }
 
     @Override
-    public void get(ChannelBuffer buffer) {
+    public void onRead(ChannelBuffer buffer) {
         playerInfo.readUserInfo(buffer);
     }
 
     @Override
-    public void send(ChannelBuffer buffer) {
+    public void onSend(ChannelBuffer buffer) {
         playerInfo.writeUserInfo(buffer);
     }
 }

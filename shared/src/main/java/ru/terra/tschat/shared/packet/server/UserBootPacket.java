@@ -12,12 +12,12 @@ public class UserBootPacket extends AbstractPacket {
     private UserInfo playerInfo = new UserInfo();
 
     @Override
-    public void get(ChannelBuffer buffer) {
+    public void onRead(ChannelBuffer buffer) {
         playerInfo.readUserInfo(buffer);
     }
 
     @Override
-    public void send(ChannelBuffer buffer) {
+    public void onSend(ChannelBuffer buffer) {
         playerInfo.writeUserInfo(buffer);
     }
 

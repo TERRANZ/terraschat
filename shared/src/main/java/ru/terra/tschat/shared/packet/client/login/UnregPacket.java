@@ -14,13 +14,13 @@ public class UnregPacket extends AbstractPacket {
     private String login = "", password = "";
 
     @Override
-    public void get(ChannelBuffer buffer) {
+    public void onRead(ChannelBuffer buffer) {
         login = readString(buffer);
         password = readString(buffer);
     }
 
     @Override
-    public void send(ChannelBuffer buffer) {
+    public void onSend(ChannelBuffer buffer) {
         writeString(buffer, login);
         writeString(buffer, password);
     }

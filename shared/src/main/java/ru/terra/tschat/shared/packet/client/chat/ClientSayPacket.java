@@ -10,27 +10,27 @@ import ru.terra.tschat.shared.packet.AbstractPacket;
  * Time: 13:45
  */
 @Packet(opCode = OpCodes.Client.Chat.CMSG_SAY)
-public class ChatSayPacket extends AbstractPacket {
+public class ClientSayPacket extends AbstractPacket {
     private String message = "";
     private long to = 0L;
 
-    public ChatSayPacket() {
+    public ClientSayPacket() {
     }
 
 
-    public ChatSayPacket(String message, long to) {
+    public ClientSayPacket(String message, long to) {
         this.message = message;
         this.to = to;
     }
 
     @Override
-    public void get(ChannelBuffer buffer) {
+    public void onRead(ChannelBuffer buffer) {
         message = readString(buffer);
         to = buffer.readLong();
     }
 
     @Override
-    public void send(ChannelBuffer buffer) {
+    public void onSend(ChannelBuffer buffer) {
         writeString(buffer, message);
         buffer.writeLong(to);
     }

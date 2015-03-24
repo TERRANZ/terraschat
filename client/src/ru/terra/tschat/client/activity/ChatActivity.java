@@ -10,11 +10,15 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import ru.terra.tschat.client.R;
+import ru.terra.tschat.client.chat.ChatHandler;
+import ru.terra.tschat.client.chat.ChatNotifier;
 import ru.terra.tschat.client.service.ChatService;
+import ru.terra.tschat.shared.packet.server.chat.ChatMessagePacket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +30,7 @@ import java.util.List;
 public class ChatActivity extends Activity {
     private ViewPager viewPager;
     private List<View> pages = new ArrayList<View>();
-    private ListView lvChats, lvUsers, lvChat;
+    private ListView lvChats, lvUsers, lvChatMessages;
     private EditText edt_chat_msg;
     private TextView tvChatTo;
 
@@ -74,14 +78,26 @@ public class ChatActivity extends Activity {
 
         lvUsers = (ListView) users.findViewById(R.id.lv_chat_users);
         lvChats = (ListView) chats.findViewById(R.id.lv_chats);
-        lvChat = (ListView) chat.findViewById(R.id.lv_chat_messages);
+        lvChatMessages = (ListView) chat.findViewById(R.id.lv_chat_messages);
         tvChatTo = (TextView) chat.findViewById(R.id.tvChatTo);
 
         edt_chat_msg = (EditText) chat.findViewById(R.id.edt_chat_msg);
+
+        final List<String> messages = new ArrayList<>();
+        final ArrayAdapter<String> chatMessagesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, messages);
+        lvChatMessages.setAdapter(chatMessagesAdapter);
+
+        ChatHandler.getInstance().addNotifier(new ChatNotifier() {
+            @Override
+            public void onChatEvent(ChatMessagePacket chatMessagePacket) {
+                messages.add(chatMessagePacket.getMsg());
+                chatMessagesAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     public void sendMessage(View v) {
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
-        lbm.sendBroadcast(new Intent(ChatService.CHAT_SERVICE_RECEIVER).putExtra(ChatService.PARAM_DO,ChatService.DO_SAY).putExtra("msg",edt_chat_msg.getText().toString()));
+        lbm.sendBroadcast(new Intent(ChatService.CHAT_SERVICE_RECEIVER).putExtra(ChatService.PARAM_DO, ChatService.DO_SAY).putExtra("msg", edt_chat_msg.getText().toString()));
     }
 }

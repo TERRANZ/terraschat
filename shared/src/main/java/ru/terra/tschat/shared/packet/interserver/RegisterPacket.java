@@ -12,13 +12,13 @@ public class RegisterPacket extends AbstractPacket {
     private int endRange = 0;
 
     @Override
-    public void get(ChannelBuffer buffer) {
+    public void onRead(ChannelBuffer buffer) {
         startRange = buffer.readInt();
         endRange = buffer.readInt();
     }
 
     @Override
-    public void send(ChannelBuffer buffer) {
+    public void onSend(ChannelBuffer buffer) {
         buffer.writeInt(startRange);
         buffer.writeInt(endRange);
     }

@@ -10,12 +10,12 @@ public class UserRegPacket extends AbstractPacket {
     private Long oldId = 0l;
 
     @Override
-    public void get(ChannelBuffer buffer) {
+    public void onRead(ChannelBuffer buffer) {
         oldId = buffer.readLong();
     }
 
     @Override
-    public void send(ChannelBuffer buffer) {
+    public void onSend(ChannelBuffer buffer) {
         buffer.writeLong(oldId);
     }
 

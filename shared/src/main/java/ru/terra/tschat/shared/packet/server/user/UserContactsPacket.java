@@ -23,11 +23,11 @@ public class UserContactsPacket extends AbstractPacket {
     }
 
     @Override
-    public void get(ChannelBuffer buffer) {
+    public void onRead(ChannelBuffer buffer) {
     }
 
     @Override
-    public void send(ChannelBuffer buffer) {
+    public void onSend(ChannelBuffer buffer) {
         buffer.writeInt(info.getContacts().size());
         for (Long c : info.getContacts())
             buffer.writeLong(c);

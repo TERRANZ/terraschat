@@ -8,12 +8,12 @@ import ru.terra.tschat.shared.packet.AbstractPacket;
 @Packet(opCode = OpCodes.InterServer.ISMSG_BOOT_USER)
 public class BootCharPacket extends AbstractPacket{
     @Override
-    public void get(ChannelBuffer buffer) {
+    public void onRead(ChannelBuffer buffer) {
 
     }
 
     @Override
-    public void send(ChannelBuffer buffer) {
+    public void onSend(ChannelBuffer buffer) {
 
     }
 }

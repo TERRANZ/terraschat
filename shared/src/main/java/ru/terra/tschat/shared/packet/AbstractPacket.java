@@ -36,14 +36,14 @@ public abstract class AbstractPacket {
         if (packet == null)
             throw new IOException("Bad packet ID: " + opcode);
 
-        packet.get(buffer);
+        packet.onRead(buffer);
         return packet;
     }
 
     public static AbstractPacket write(AbstractPacket packet, ChannelBuffer buffer) {
         buffer.writeChar(packet.getOpCode());
         buffer.writeLong(packet.getSender());
-        packet.send(buffer);
+        packet.onSend(buffer);
         return packet;
     }
 
@@ -52,12 +52,12 @@ public abstract class AbstractPacket {
     /**
      * Вызывается при приёме пакета, в этом методе производим вычитывание из буфера данных
      */
-    public abstract void get(ChannelBuffer buffer);
+    public abstract void onRead(ChannelBuffer buffer);
 
     /**
      * Вызывается при отсылке пакета, в этом методе производим запись в буфер данных
      */
-    public abstract void send(ChannelBuffer buffer);
+    public abstract void onSend(ChannelBuffer buffer);
 
     public static String readString(ChannelBuffer buffer) {
         int length = buffer.readShort();

@@ -5,15 +5,15 @@ import android.content.*;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import ru.terra.tschat.client.R;
-import ru.terra.tschat.client.chat.ChatStateChangeNotifier;
-import ru.terra.tschat.client.chat.ClientStateHolder;
+import ru.terra.tschat.client.network.client.ClientStateChangeNotifier;
+import ru.terra.tschat.client.network.client.ClientStateHolder;
 import ru.terra.tschat.client.network.ClientWorker;
 import ru.terra.tschat.client.network.GUIDHOlder;
 import ru.terra.tschat.client.util.AndroidClassSearcher;
 import ru.terra.tschat.interserver.network.NetworkManager;
 import ru.terra.tschat.shared.context.SharedContext;
 import ru.terra.tschat.shared.packet.AbstractPacket;
-import ru.terra.tschat.shared.packet.client.chat.ChatSayPacket;
+import ru.terra.tschat.shared.packet.client.chat.ClientSayPacket;
 import ru.terra.tschat.shared.packet.client.login.LoginPacket;
 
 import java.util.Date;
@@ -53,7 +53,7 @@ public class ChatService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         SharedContext.getInstance().setClassSearcher(new AndroidClassSearcher<AbstractPacket>(getApplicationContext()));
-        ClientStateHolder.getInstance().setNotifier(new MyChatStateChangeNotifier());
+        ClientStateHolder.getInstance().setNotifier(new MyClientStateChangeNotifier());
         ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.INIT);
         NetworkManager.getInstance().start(ClientWorker.class, getString(R.string.ip), 12345);
 
@@ -83,7 +83,7 @@ public class ChatService extends IntentService {
                 }
                 break;
                 case DO_SAY: {
-                    ChatSayPacket packet = new ChatSayPacket(new Date() + " " + intent.getStringExtra("msg"), 0L);
+                    ClientSayPacket packet = new ClientSayPacket(new Date() + " " + intent.getStringExtra("msg"), 0L);
                     packet.setSender(GUIDHOlder.getInstance().getGuid());
                     NetworkManager.getInstance().sendPacket(packet);
                 }
@@ -92,9 +92,9 @@ public class ChatService extends IntentService {
         }
     }
 
-    private class MyChatStateChangeNotifier implements ChatStateChangeNotifier {
+    private class MyClientStateChangeNotifier implements ClientStateChangeNotifier {
         @Override
-        public void onGameStateChange(ClientStateHolder.ClientState oldgs, ClientStateHolder.ClientState newgs) {
+        public void onClientStateChange(ClientStateHolder.ClientState oldgs, ClientStateHolder.ClientState newgs) {
             if (newgs.equals(ClientStateHolder.ClientState.LOGGED_IN)) {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean(getString(R.string.loggedIn), true);

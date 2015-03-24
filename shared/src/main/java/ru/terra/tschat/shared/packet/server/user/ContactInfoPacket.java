@@ -36,12 +36,12 @@ public class ContactInfoPacket extends AbstractPacket {
     }
 
     @Override
-    public void get(ChannelBuffer buffer) {
+    public void onRead(ChannelBuffer buffer) {
 
     }
 
     @Override
-    public void send(ChannelBuffer buffer) {
+    public void onSend(ChannelBuffer buffer) {
         List<UserInfo> res = new ArrayList<>();
         for (UserInfo info : loader.loadUsers())
             if (contacts.contains(info.getUID()))

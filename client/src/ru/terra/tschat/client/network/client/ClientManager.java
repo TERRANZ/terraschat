@@ -1,4 +1,4 @@
-package ru.terra.tschat.client.chat;
+package ru.terra.tschat.client.network.client;
 
 import ru.terra.tschat.shared.entity.UserInfo;
 
@@ -9,14 +9,14 @@ import ru.terra.tschat.shared.entity.UserInfo;
  * Time: 0:47
  * To change this template use File | Settings | File Templates.
  */
-public class ChatManager {
-    private static ChatManager instance = new ChatManager();
+public class ClientManager {
+    private static ClientManager instance = new ClientManager();
     private UserInfo userInfo;
 
-    private ChatManager() {
+    private ClientManager() {
     }
 
-    public static ChatManager getInstance() {
+    public static ClientManager getInstance() {
         return instance;
     }
 
