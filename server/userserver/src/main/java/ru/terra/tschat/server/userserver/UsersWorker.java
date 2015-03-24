@@ -5,6 +5,7 @@ import ru.terra.tschat.interserver.network.netty.InterserverWorker;
 import ru.terra.tschat.shared.constants.OpCodes;
 import ru.terra.tschat.shared.entity.UserInfo;
 import ru.terra.tschat.shared.packet.AbstractPacket;
+import ru.terra.tschat.shared.packet.client.contacts.AddContactPacket;
 import ru.terra.tschat.shared.packet.interserver.HelloPacket;
 import ru.terra.tschat.shared.packet.interserver.RegisterPacket;
 import ru.terra.tschat.shared.packet.server.UserBootPacket;
@@ -65,7 +66,11 @@ public class UsersWorker extends InterserverWorker {
             }
             break;
             case OpCodes.Client.User.CMSG_GET_CONTACTS: {
-                handler.getRoster(getUser(packet.getSender()));
+                handler.getContacts(getUser(packet.getSender()));
+            }
+            break;
+            case OpCodes.Client.User.CMSG_ADD_CONTACT: {
+                handler.addContact(getUser(packet.getSender()), ((AddContactPacket) packet).getContactUID());
             }
             break;
         }

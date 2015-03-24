@@ -2,6 +2,7 @@ package ru.terra.tschat.client.util;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.util.Log;
 import dalvik.system.DexFile;
 import ru.terra.tschat.shared.core.AbstractClassSearcher;
 
@@ -45,8 +46,7 @@ public class AndroidClassSearcher<T> extends AbstractClassSearcher<T> {
                         }
                     }
                 } catch (ClassNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    Log.e(TAG, "Unable to load class ", e);
                 }
                 //              android.util.Log.i("nora", className);
             }

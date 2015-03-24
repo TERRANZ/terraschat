@@ -2,7 +2,9 @@ package ru.terra.tschat.client.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import ru.terra.tschat.client.R;
+import ru.terra.tschat.client.service.ChatService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,5 +77,11 @@ public class ChatActivity extends Activity {
         lvChat = (ListView) chat.findViewById(R.id.lv_chat_messages);
         tvChatTo = (TextView) chat.findViewById(R.id.tvChatTo);
 
+        edt_chat_msg = (EditText) chat.findViewById(R.id.edt_chat_msg);
+    }
+
+    public void sendMessage(View v) {
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
+        lbm.sendBroadcast(new Intent(ChatService.CHAT_SERVICE_RECEIVER).putExtra(ChatService.PARAM_DO,ChatService.DO_SAY).putExtra("msg",edt_chat_msg.getText().toString()));
     }
 }

@@ -16,6 +16,10 @@ public class UsersHandler {
     private UsersHandler() {
     }
 
-    public void getRoster(UserInfo userInfo) {
+    public void getContacts(UserInfo userInfo) {
+
+    }
+
+    public void addContact(UserInfo userInfo, String contact) {
     }
 }

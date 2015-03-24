@@ -13,8 +13,10 @@ import ru.terra.tschat.client.util.AndroidClassSearcher;
 import ru.terra.tschat.interserver.network.NetworkManager;
 import ru.terra.tschat.shared.context.SharedContext;
 import ru.terra.tschat.shared.packet.AbstractPacket;
+import ru.terra.tschat.shared.packet.client.chat.ChatSayPacket;
 import ru.terra.tschat.shared.packet.client.login.LoginPacket;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -28,6 +30,7 @@ public class ChatService extends IntentService {
     public static final int DO_CONNECT = 1;
     public static final int DO_LOGIN = 2;
     public static final int DO_REG = 3;
+    public static final int DO_SAY = 4;
 
 
     private ChatServiceReceiver chatReceiver;
@@ -54,23 +57,6 @@ public class ChatService extends IntentService {
         ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.INIT);
         NetworkManager.getInstance().start(ClientWorker.class, getString(R.string.ip), 12345);
 
-//        try {
-//            Thread.sleep(5000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-
-//        while (true) {
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            ChatSayPacket packet = new ChatSayPacket("Current time is " + new Date().getTime(), 0L);
-//            packet.setSender(GUIDHOlder.getInstance().getGuid());
-//            NetworkManager.getInstance().sendPacket(packet);
-//        }
-
         while (true) {
             try {
                 Thread.sleep(1);
@@ -94,6 +80,12 @@ public class ChatService extends IntentService {
                 }
                 break;
                 case DO_REG: {
+                }
+                break;
+                case DO_SAY: {
+                    ChatSayPacket packet = new ChatSayPacket(new Date() + " " + intent.getStringExtra("msg"), 0L);
+                    packet.setSender(GUIDHOlder.getInstance().getGuid());
+                    NetworkManager.getInstance().sendPacket(packet);
                 }
                 break;
             }
