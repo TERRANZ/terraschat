@@ -1,5 +1,6 @@
 package ru.terra.tschat.client.chat;
 
+import android.util.Log;
 import ru.terra.tschat.shared.packet.server.chat.ChatMessagePacket;
 
 import java.util.ArrayList;
@@ -31,6 +32,10 @@ public class ChatHandler {
 
     public void notify(ChatMessagePacket packet) {
         for (ChatNotifier cn : notifierList)
-            cn.onChatEvent(packet);
+            try {
+                cn.onChatEvent(packet);
+            } catch (Exception e) {
+                Log.e("ChatHandler", "Unable to process chat event", e);
+            }
     }
 }

@@ -89,9 +89,14 @@ public class ChatActivity extends Activity {
 
         ChatHandler.getInstance().addNotifier(new ChatNotifier() {
             @Override
-            public void onChatEvent(ChatMessagePacket chatMessagePacket) {
-                messages.add(chatMessagePacket.getMsg());
-                chatMessagesAdapter.notifyDataSetChanged();
+            public void onChatEvent(final ChatMessagePacket chatMessagePacket) {
+                lvChatMessages.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        messages.add(chatMessagePacket.getMsg());
+                        chatMessagesAdapter.notifyDataSetChanged();
+                    }
+                });
             }
         });
     }

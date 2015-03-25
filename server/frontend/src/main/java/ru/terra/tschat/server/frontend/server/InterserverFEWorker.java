@@ -72,7 +72,15 @@ public class InterserverFEWorker extends ServerWorker {
                         usersHolder.getUserChannel(chan).write(packet);
                     }
                 } else {
-                    usersHolder.getUserChannel(packet.getSender()).write(packet);
+                    try {
+                        Channel c = usersHolder.getUserChannel(packet.getSender());
+                        if (c != null)
+                            c.write(packet);
+                        else
+                            log.error("Channel for " + packet.getSender() + " is not found");
+                    } catch (Exception e) {
+                        log.error("Unable to send message", e);
+                    }
                 }
             }
         }
