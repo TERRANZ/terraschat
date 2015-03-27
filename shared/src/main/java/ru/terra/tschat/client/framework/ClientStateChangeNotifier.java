@@ -1,4 +1,4 @@
-package ru.terra.tschat.client.network.client;
+package ru.terra.tschat.client.framework;
 
 /**
  * Date: 12.11.14

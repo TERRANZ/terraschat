@@ -1,6 +1,6 @@
 package ru.terra.tschat.client.chat;
 
-import android.util.Log;
+import ru.terra.tschat.shared.context.SharedContext;
 import ru.terra.tschat.shared.packet.server.chat.ChatMessagePacket;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class ChatHandler {
             try {
                 cn.onChatEvent(packet);
             } catch (Exception e) {
-                Log.e("ChatHandler", "Unable to process chat event", e);
+                SharedContext.getInstance().getLogger().error("ChatHandler", "Unable to process chat event", e);
             }
     }
 }

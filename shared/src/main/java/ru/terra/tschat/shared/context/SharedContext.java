@@ -1,6 +1,7 @@
 package ru.terra.tschat.shared.context;
 
 import ru.terra.tschat.shared.core.AbstractClassSearcher;
+import ru.terra.tschat.shared.core.Logger;
 import ru.terra.tschat.shared.core.impl.InfomasClassSearcher;
 
 /**
@@ -10,6 +11,7 @@ import ru.terra.tschat.shared.core.impl.InfomasClassSearcher;
 public class SharedContext {
     private static SharedContext instance = new SharedContext();
     private AbstractClassSearcher classSearcher;
+    private Logger logger;
 
     private SharedContext() {
         classSearcher = new InfomasClassSearcher();
@@ -25,5 +27,13 @@ public class SharedContext {
 
     public void setClassSearcher(AbstractClassSearcher classSearcher) {
         this.classSearcher = classSearcher;
+    }
+
+    public Logger getLogger() {
+        return logger;
+    }
+
+    public void setLogger(Logger logger) {
+        this.logger = logger;
     }
 }

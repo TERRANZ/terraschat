@@ -1,4 +1,4 @@
-package ru.terra.tschat.client.network.client;
+package ru.terra.tschat.client.framework;
 
 import ru.terra.tschat.shared.entity.UserInfo;
 

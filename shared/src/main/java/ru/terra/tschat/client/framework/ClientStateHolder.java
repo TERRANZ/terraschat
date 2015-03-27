@@ -1,4 +1,4 @@
-package ru.terra.tschat.client.network.client;
+package ru.terra.tschat.client.framework;
 
 
 public class ClientStateHolder {

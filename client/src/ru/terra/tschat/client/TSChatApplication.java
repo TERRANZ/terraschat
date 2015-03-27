@@ -1,10 +1,13 @@
 package ru.terra.tschat.client;
 
 import android.app.Application;
+import android.util.Log;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.acra.sender.HttpSender;
+import ru.terra.tschat.shared.context.SharedContext;
+import ru.terra.tschat.shared.core.Logger;
 
 /**
  * Date: 24.06.14
@@ -19,5 +22,26 @@ public class TSChatApplication extends Application {
     public void onCreate() {
         ACRA.init(this);
         super.onCreate();
+        SharedContext.getInstance().setLogger(new Logger() {
+            @Override
+            public void error(String tag, String msg) {
+                Log.e(tag, msg);
+            }
+
+            @Override
+            public void error(String tag, String msg, Throwable t) {
+                Log.e(tag, msg, t);
+            }
+
+            @Override
+            public void info(String tag, String msg) {
+                Log.i(tag,msg);
+            }
+
+            @Override
+            public void debug(String tag, String msg) {
+                Log.d(tag,msg);
+            }
+        });
     }
 }
