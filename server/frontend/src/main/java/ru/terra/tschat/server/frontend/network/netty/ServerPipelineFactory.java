@@ -3,6 +3,8 @@ package ru.terra.tschat.server.frontend.network.netty;
 import org.jboss.netty.channel.ChannelPipeline;
 import org.jboss.netty.channel.ChannelPipelineFactory;
 import org.jboss.netty.channel.Channels;
+import ru.terra.tschat.interserver.network.netty.PacketFrameDecoder;
+import ru.terra.tschat.interserver.network.netty.PacketFrameEncoder;
 
 public class ServerPipelineFactory implements ChannelPipelineFactory {
 

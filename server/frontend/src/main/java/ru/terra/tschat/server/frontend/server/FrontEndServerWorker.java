@@ -8,6 +8,8 @@ import ru.terra.tschat.shared.packet.AbstractPacket;
 import ru.terra.tschat.shared.packet.interserver.UnregCharPacket;
 import ru.terra.tschat.shared.packet.server.OkPacket;
 
+import java.nio.channels.ClosedChannelException;
+
 public class FrontEndServerWorker extends ServerWorker {
 
     private Logger logger = Logger.getLogger(this.getClass());
@@ -39,7 +41,11 @@ public class FrontEndServerWorker extends ServerWorker {
 //        logger.info("Received packet " + message.getOpCode());
         Channel interchan = channelsHolder.getChannel(message.getOpCode());
         if (interchan != null)
-            interchan.write(message);
+            try {
+                interchan.write(message);
+            } catch (Exception e) {
+                logger.error("Channel closed", e);
+            }
         else {
             logger.error("Unable to find interserver for opcode " + message.getOpCode());
         }

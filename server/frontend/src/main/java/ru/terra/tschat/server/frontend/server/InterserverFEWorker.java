@@ -44,13 +44,21 @@ public class InterserverFEWorker extends ServerWorker {
                 break;
                 case OpCodes.InterServer.ISMSG_BOOT_USER: {
                     log.info("Booting char with UID = " + packet.getSender());
-                    Channel charChannel = channelsHolder.getChannel(OpCodes.UserOpcodeStart);
+                    Channel usersChannel = channelsHolder.getChannel(OpCodes.UserOpcodeStart);
                     Channel chatChannel = channelsHolder.getChannel(OpCodes.ChatOpcodeStart);
-                    if (charChannel != null) {
-                        charChannel.write(packet);
+                    if (usersChannel != null) {
+                        try {
+                            usersChannel.write(packet);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                     if (chatChannel != null) {
-                        chatChannel.write(packet);
+                        try {
+                            chatChannel.write(packet);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 break;

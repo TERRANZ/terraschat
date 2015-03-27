@@ -2,6 +2,8 @@ package ru.terra.tschat.server.frontend.network.netty;
 
 import org.apache.log4j.Logger;
 import org.jboss.netty.channel.*;
+import ru.terra.tschat.interserver.network.netty.PacketFrameDecoder;
+import ru.terra.tschat.interserver.network.netty.PacketFrameEncoder;
 import ru.terra.tschat.shared.packet.AbstractPacket;
 
 public class ServerHandler extends SimpleChannelUpstreamHandler {

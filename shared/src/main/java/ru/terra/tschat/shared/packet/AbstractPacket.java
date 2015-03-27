@@ -2,6 +2,7 @@ package ru.terra.tschat.shared.packet;
 
 import org.jboss.netty.buffer.ChannelBuffer;
 import ru.terra.tschat.shared.annoations.Packet;
+import ru.terra.tschat.shared.context.SharedContext;
 
 import java.io.IOException;
 
@@ -33,10 +34,10 @@ public abstract class AbstractPacket {
         Integer opcode = buffer.readUnsignedShort();
         Long sguid = buffer.readLong();
         AbstractPacket packet = PacketFactory.getInstance().getPacket(opcode, sguid);
-        if (packet == null)
-            throw new IOException("Bad packet ID: " + opcode);
-
-        packet.onRead(buffer);
+        if (packet != null)
+            packet.onRead(buffer);
+        else
+            SharedContext.getInstance().getLogger().error("AbstractPacket", "Unable to find packet " + opcode);
         return packet;
     }
 
