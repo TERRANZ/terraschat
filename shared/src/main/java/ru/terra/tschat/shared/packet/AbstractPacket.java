@@ -37,7 +37,7 @@ public abstract class AbstractPacket {
         if (packet != null)
             packet.onRead(buffer);
         else
-            SharedContext.getInstance().getLogger().error("AbstractPacket", "Unable to find packet " + opcode);
+            SharedContext.getInstance().getLogger().error("AbstractPacket", "Unable to find packet " + opcode + " with sender guid: " + sguid);
         return packet;
     }
 

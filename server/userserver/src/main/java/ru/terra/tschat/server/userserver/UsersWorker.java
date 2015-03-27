@@ -51,6 +51,7 @@ public class UsersWorker extends InterserverWorker {
                 userBootPacket.setSender(packet.getSender());
                 networkManager.sendPacket(userBootPacket);
                 users.add(userInfo);
+                log.info("User info sent to client");
             }
             break;
             case OpCodes.InterServer.ISMSG_UNREG_USER: {

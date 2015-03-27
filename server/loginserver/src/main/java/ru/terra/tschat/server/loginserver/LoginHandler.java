@@ -32,7 +32,6 @@ public class LoginHandler {
     public void handleLogin(LoginPacket loginPacket) {
         logger.info("Client with login " + loginPacket.getLogin() + " and pass " + loginPacket.getPassword() + " attempting to log in");
         Long uid = charLoader.findUser(loginPacket.getLogin(), loginPacket.getPassword());
-        logger.info("Client with id " + loginPacket.getSender() + " logged in");
         if (uid != null) {
             logger.info("Client with id " + loginPacket.getSender() + " logged in");
             logger.info("Client registered with GUID = " + uid);

@@ -28,6 +28,7 @@ public class ClientWorker extends InterserverWorker {
         switch (packet.getOpCode()) {
             case OpCodes.Server.SMSG_OK: {
                 ClientStateHolder.ClientState clientState = ClientStateHolder.getInstance().getClientState();
+                SharedContext.getInstance().getLogger().error("ClientWorker", "server said OK when client state: " + clientState.name());
                 switch (clientState) {
                     case INIT:
                         GUIDHOlder.getInstance().setGuid(packet.getSender());
@@ -40,9 +41,11 @@ public class ClientWorker extends InterserverWorker {
                         ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.LOGGED_IN);
                         break;
                     case LOGGED_IN:
+                        ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.IN_CHAT);
+                        break;
+                    case CHAR_BOOT:
                         break;
                     case IN_CHAT:
-                        ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.IN_CHAT);
                         break;
                 }
             }
