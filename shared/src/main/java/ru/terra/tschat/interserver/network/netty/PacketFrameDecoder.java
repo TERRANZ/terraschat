@@ -21,6 +21,11 @@ public class PacketFrameDecoder extends ReplayingDecoder<VoidEnum> {
 
     @Override
     protected Object decode(ChannelHandlerContext arg0, Channel arg1, ChannelBuffer buffer, VoidEnum e) throws Exception {
-        return AbstractPacket.read(buffer);
+        return AbstractPacket.read(buffer, new PacketCheckpointHandler() {
+            @Override
+            public void onCheckpoint() {
+                PacketFrameDecoder.this.checkpoint();
+            }
+        });
     }
 }

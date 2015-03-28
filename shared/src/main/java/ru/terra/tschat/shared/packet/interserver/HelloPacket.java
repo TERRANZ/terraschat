@@ -1,6 +1,7 @@
 package ru.terra.tschat.shared.packet.interserver;
 
 import org.jboss.netty.buffer.ChannelBuffer;
+import ru.terra.tschat.interserver.network.netty.PacketCheckpointHandler;
 import ru.terra.tschat.shared.annoations.Packet;
 import ru.terra.tschat.shared.constants.OpCodes.InterServer;
 import ru.terra.tschat.shared.packet.AbstractPacket;
@@ -19,8 +20,9 @@ public class HelloPacket extends AbstractPacket {
     }
 
     @Override
-    public void onRead(ChannelBuffer buffer) {
-        hello = readString(buffer);
+    public void onRead(ChannelBuffer buffer, PacketCheckpointHandler checkpointHandler) {
+        hello = readString(buffer, checkpointHandler);
+        checkpointHandler.onCheckpoint();
     }
 
     @Override
