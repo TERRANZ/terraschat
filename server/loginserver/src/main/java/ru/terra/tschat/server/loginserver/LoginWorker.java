@@ -8,7 +8,7 @@ import ru.terra.tschat.shared.packet.client.login.LoginPacket;
 import ru.terra.tschat.shared.packet.client.login.LogoutPacket;
 import ru.terra.tschat.shared.packet.client.login.RegPacket;
 import ru.terra.tschat.shared.packet.client.login.UnregPacket;
-import ru.terra.tschat.shared.packet.interserver.BootCharPacket;
+import ru.terra.tschat.shared.packet.interserver.BootUserPacket;
 import ru.terra.tschat.shared.packet.interserver.HelloPacket;
 import ru.terra.tschat.shared.packet.interserver.RegisterPacket;
 
@@ -59,10 +59,10 @@ public class LoginWorker extends InterserverWorker {
             break;
 
             case OpCodes.Client.Login.CSMG_BOOT_ME: {
-                logger.info("Client sent Boot Me to us");
-                BootCharPacket bootCharPacket = new BootCharPacket();
-                bootCharPacket.setSender(packet.getSender());
-                networkManager.sendPacket(bootCharPacket);
+                logger.info("Client " + packet.getSender() + " sent Boot Me to us");
+                BootUserPacket bootUserPacket = new BootUserPacket();
+                bootUserPacket.setSender(packet.getSender());
+                networkManager.sendPacket(bootUserPacket);
             }
             break;
         }

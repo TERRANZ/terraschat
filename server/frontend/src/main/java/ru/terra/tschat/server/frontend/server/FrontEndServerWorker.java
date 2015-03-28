@@ -8,19 +8,18 @@ import ru.terra.tschat.shared.packet.AbstractPacket;
 import ru.terra.tschat.shared.packet.interserver.UnregCharPacket;
 import ru.terra.tschat.shared.packet.server.OkPacket;
 
-import java.nio.channels.ClosedChannelException;
+import java.util.UUID;
 
 public class FrontEndServerWorker extends ServerWorker {
 
     private Logger logger = Logger.getLogger(this.getClass());
-    private TempUsersHolder tempUsersHolder = TempUsersHolder.getInstance();
     private UsersHolder usersHolder = UsersHolder.getInstance();
     private ChannelsHolder channelsHolder = ChannelsHolder.getInstance();
 
     @Override
     public void disconnectedFromChannel(Channel removedChannel) {
         logger.info("User disconnected");
-        Long removedChar = usersHolder.removeChar(removedChannel);
+        Long removedChar = usersHolder.deleteUserChannel(removedChannel);
         if (removedChar != null) {
             Channel userChannel = channelsHolder.getChannel(OpCodes.UserOpcodeStart);
             Channel chatChannel = channelsHolder.getChannel(OpCodes.ChatOpcodeStart);
@@ -55,9 +54,9 @@ public class FrontEndServerWorker extends ServerWorker {
     synchronized public void sendHello() {
         logger.info("User connected");
         OkPacket okPacket = new OkPacket();
-        okPacket.setSender(tempUsersHolder.getUnusedId());
+        okPacket.setSender(UUID.randomUUID().getLeastSignificantBits());
         logger.info("Temporary player uid = " + okPacket.getSender() + " with channel " + channel.getId());
-        tempUsersHolder.addTempChannel(okPacket.getSender(), channel);
+        usersHolder.addUserChannel(okPacket.getSender(), channel);
         channel.write(okPacket);
     }
 }

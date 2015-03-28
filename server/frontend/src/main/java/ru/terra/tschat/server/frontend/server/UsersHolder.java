@@ -45,7 +45,7 @@ public class UsersHolder {
         return users.size();
     }
 
-    public synchronized Long removeChar(Channel channel) {
+    public synchronized Long deleteUserChannel(Channel channel) {
         Long removedUser = null;
         for (Long guid : users.keySet()) {
             if (users.get(guid).equals(channel))

@@ -14,7 +14,6 @@ public class InterserverFEWorker extends ServerWorker {
     private Logger log = Logger.getLogger(InterserverFEWorker.class);
     private ChannelsHolder channelsHolder = ChannelsHolder.getInstance();
     private UsersHolder usersHolder = UsersHolder.getInstance();
-    private TempUsersHolder tempUsersHolder = TempUsersHolder.getInstance();
 
     @Override
     public void disconnectedFromChannel(Channel removedChannel) {
@@ -65,14 +64,19 @@ public class InterserverFEWorker extends ServerWorker {
                 case OpCodes.InterServer.ISMSG_USER_REG: {
                     Long oldId = (((UserRegPacket) packet).getOldId());
                     log.info("Registering character with oldid = " + oldId + " and new id = " + packet.getSender());
-                    usersHolder.addUserChannel(packet.getSender(), tempUsersHolder.getTempChannel(oldId));
-                    tempUsersHolder.deleteTempChannel(oldId);
+                    Channel chan = usersHolder.getUserChannel(oldId);
+                    usersHolder.deleteUserChannel(chan);
+                    usersHolder.addUserChannel(packet.getSender(), chan);
+
+
+
                 }
                 break;
             }
         } else {
             if (packet.getOpCode().equals(OpCodes.Server.Login.SMSG_LOGIN_FAILED)) {
-                tempUsersHolder.getTempChannel(packet.getSender()).write(packet);
+                log.info("User " + packet.getSender() + " failed to login");
+                usersHolder.getUserChannel(packet.getSender()).write(packet);
             } else {
                 if (packet.getSender().equals(0L)) {
                     //log.info("Sending packet " + packet.getOpCode() + " to all players");

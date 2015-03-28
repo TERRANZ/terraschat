@@ -71,6 +71,7 @@ public class Main {
             LoginPacket loginPacket = new LoginPacket();
             loginPacket.setLogin(UUID.randomUUID().toString());
             loginPacket.setPassword(UUID.randomUUID().toString());
+            org.apache.log4j.Logger.getLogger(Main.class).info("Loggin in with guid: " + GUIDHOlder.getInstance().getGuid());
             loginPacket.setSender(GUIDHOlder.getInstance().getGuid());
             NetworkManager.getInstance().sendPacket(loginPacket);
 

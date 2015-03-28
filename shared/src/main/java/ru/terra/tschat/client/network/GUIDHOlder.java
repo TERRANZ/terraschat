@@ -1,6 +1,8 @@
 package ru.terra.tschat.client.network;
 
 
+import ru.terra.tschat.shared.context.SharedContext;
+
 /**
  * User: Vadim Korostelev
  * Date: 02.09.13
@@ -22,6 +24,7 @@ public class GUIDHOlder {
     }
 
     public void setGuid(long guid) {
+        SharedContext.getInstance().getLogger().info("GUIDHolder", String.valueOf(guid));
         this.guid = guid;
     }
 }

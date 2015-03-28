@@ -36,7 +36,7 @@ public class ClientWorker extends InterserverWorker {
                     case LOGIN:
                         GUIDHOlder.getInstance().setGuid(packet.getSender());
                         BootMePacket bootMePacket = new BootMePacket();
-                        bootMePacket.setSender(GUIDHOlder.getInstance().getGuid());
+                        bootMePacket.setSender(packet.getSender());
                         NetworkManager.getInstance().sendPacket(bootMePacket);
                         ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.LOGGED_IN);
                         break;
