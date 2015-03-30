@@ -67,9 +67,6 @@ public class InterserverFEWorker extends ServerWorker {
                     Channel chan = usersHolder.getUserChannel(oldId);
                     usersHolder.deleteUserChannel(chan);
                     usersHolder.addUserChannel(packet.getSender(), chan);
-
-
-
                 }
                 break;
             }
@@ -80,10 +77,17 @@ public class InterserverFEWorker extends ServerWorker {
             } else {
                 if (packet.getSender().equals(0L)) {
                     //log.info("Sending packet " + packet.getOpCode() + " to all players");
-                    for (Long chan : usersHolder.getChannels()) {
-                        usersHolder.getUserChannel(chan).write(packet);
-                    }
-                } else {
+                    for (Long chan : usersHolder.getChannels())
+                        try {
+                            Channel c = usersHolder.getUserChannel(chan);
+                            if (c != null)
+                                c.write(packet);
+                            else
+                                log.error("Channel for " + chan + " is not found");
+                        } catch (Exception e) {
+                            log.error("Unable to send message", e);
+                        }
+                } else
                     try {
                         Channel c = usersHolder.getUserChannel(packet.getSender());
                         if (c != null)
@@ -93,7 +97,7 @@ public class InterserverFEWorker extends ServerWorker {
                     } catch (Exception e) {
                         log.error("Unable to send message", e);
                     }
-                }
+
             }
         }
     }
