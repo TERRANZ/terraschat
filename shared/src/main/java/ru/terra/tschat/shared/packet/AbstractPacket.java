@@ -5,13 +5,8 @@ import ru.terra.tschat.interserver.network.netty.PacketCheckpointHandler;
 import ru.terra.tschat.shared.annoations.Packet;
 import ru.terra.tschat.shared.context.SharedContext;
 
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.security.SecureRandom;
 
 public abstract class AbstractPacket {
     private Integer opCode = 0;
@@ -74,25 +69,14 @@ public abstract class AbstractPacket {
         checkpointHandler.onCheckpoint();
         byte[] buf = new byte[length];
         buffer.readBytes(buf);
+        SharedContext.getInstance().getLogger().debug("AbstractPacket", "readed: " + bytesToHex(buf));
         String text = "";
         try {
-            byte[] keyStart = "this is a key".getBytes();
-            KeyGenerator kgen = KeyGenerator.getInstance("AES");
-            SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-            sr.setSeed(keyStart);
-            kgen.init(128, sr); // 192 and 256 bits may not be available
-            SecretKey skey = kgen.generateKey();
-            byte[] key = skey.getEncoded();
-            byte[] decryptedData = decrypt(key, buf);
-            text = new String(decryptedData, Charset.forName("UTF-8"));
+//            text = SimpleCrypto.decrypt("this is a key", buf);
+            text = new String(buf, Charset.forName("UTF-8"));
         } catch (Exception e) {
             SharedContext.getInstance().getLogger().error("AbstractPacket", "Unable to decode string", e);
         }
-//        StringBuilder builder = new StringBuilder();
-//        for (int i = 0; i < length; ++i)
-//            builder.append(buffer.readChar());
-//        SharedContext.getInstance().getLogger().debug("AbstractPacket", "Readed from buffer: '" + builder.toString() + "'");
-//        return builder.toString();
         return text;
     }
 
@@ -100,15 +84,10 @@ public abstract class AbstractPacket {
         if (text == null || text.length() == 0)
             return;
         try {
-            byte[] keyStart = "this is a key".getBytes();
-            KeyGenerator kgen = KeyGenerator.getInstance("AES");
-            SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-            sr.setSeed(keyStart);
-            kgen.init(128, sr); // 192 and 256 bits may not be available
-            SecretKey skey = kgen.generateKey();
-            byte[] key = skey.getEncoded();
-            byte[] encryptedData = encrypt(key, text.getBytes(Charset.forName("UTF-8")));
+//            byte[] encryptedData = SimpleCrypto.encrypt("this is a key", text);
+            byte[] encryptedData = text.getBytes(Charset.forName("UTF-8"));
             buffer.writeShort(encryptedData.length);
+            SharedContext.getInstance().getLogger().debug("AbstractPacket", "written: " + bytesToHex(encryptedData));
             buffer.writeBytes(encryptedData);
         } catch (Exception e) {
             SharedContext.getInstance().getLogger().error("AbstractPacket", "Unable to encode and send string " + text, e);
@@ -116,19 +95,15 @@ public abstract class AbstractPacket {
 
     }
 
-    private static byte[] encrypt(byte[] raw, byte[] clear) throws Exception {
-        SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-        byte[] encrypted = cipher.doFinal(clear);
-        return encrypted;
-    }
+    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
-    private static byte[] decrypt(byte[] raw, byte[] encrypted) throws Exception {
-        SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.DECRYPT_MODE, skeySpec);
-        byte[] decrypted = cipher.doFinal(encrypted);
-        return decrypted;
+    public static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        }
+        return new String(hexChars);
     }
 }
