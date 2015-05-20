@@ -1,7 +1,6 @@
 package ru.terra.tschat.shared.packet.server;
 
 import org.jboss.netty.buffer.ChannelBuffer;
-import ru.terra.tschat.interserver.network.netty.PacketCheckpointHandler;
 import ru.terra.tschat.shared.annoations.Packet;
 import ru.terra.tschat.shared.constants.OpCodes;
 import ru.terra.tschat.shared.entity.UserInfo;
@@ -13,8 +12,8 @@ public class UserBootPacket extends AbstractPacket {
     private UserInfo playerInfo = new UserInfo();
 
     @Override
-    public void onRead(ChannelBuffer buffer, PacketCheckpointHandler checkpointHandler) {
-        playerInfo.readUserInfo(buffer, checkpointHandler);
+    public void onRead(ChannelBuffer buffer) {
+        playerInfo.readUserInfo(buffer);
     }
 
     @Override

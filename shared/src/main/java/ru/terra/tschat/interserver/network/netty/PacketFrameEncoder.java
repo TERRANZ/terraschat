@@ -14,10 +14,11 @@ public class PacketFrameEncoder extends OneToOneEncoder {
             return obj; // Если это не пакет, то просто пропускаем его дальше
         AbstractPacket p = (AbstractPacket) obj;
 
-        ChannelBuffer buffer = ChannelBuffers.dynamicBuffer(); // Создаём динамический буфер для записи в него данных из пакета. Если Вы точно знаете
-        // длину пакета, Вам не обязательно использовать динамический буфер — ChannelBuffers
-        // предоставляет и буферы фиксированной длинны, они могут быть эффективнее.
-        AbstractPacket.write(p, buffer); // Пишем пакет в буфер
-        return buffer; // Возвращаем буфер, который и будет записан в канал
+        ChannelBuffer packetBuffer = ChannelBuffers.dynamicBuffer();
+        AbstractPacket.write(p, packetBuffer);
+        ChannelBuffer outBuffer = ChannelBuffers.directBuffer(Integer.BYTES + packetBuffer.readableBytes());
+        outBuffer.writeInt(packetBuffer.readableBytes());//size
+        outBuffer.writeBytes(packetBuffer);//content
+        return outBuffer;
     }
 }

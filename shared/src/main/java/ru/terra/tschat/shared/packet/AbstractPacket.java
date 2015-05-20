@@ -1,7 +1,6 @@
 package ru.terra.tschat.shared.packet;
 
 import org.jboss.netty.buffer.ChannelBuffer;
-import ru.terra.tschat.interserver.network.netty.PacketCheckpointHandler;
 import ru.terra.tschat.shared.annoations.Packet;
 import ru.terra.tschat.shared.context.SharedContext;
 
@@ -32,14 +31,12 @@ public abstract class AbstractPacket {
         this.opCode = id;
     }
 
-    public static AbstractPacket read(ChannelBuffer buffer, PacketCheckpointHandler checkpointHandler) throws IOException {
+    public static AbstractPacket read(ChannelBuffer buffer) throws IOException {
         Integer opcode = buffer.readUnsignedShort();
-        checkpointHandler.onCheckpoint();
         Long sguid = buffer.readLong();
-        checkpointHandler.onCheckpoint();
         AbstractPacket packet = PacketFactory.getInstance().getPacket(opcode, sguid);
         if (packet != null)
-            packet.onRead(buffer, checkpointHandler);
+            packet.onRead(buffer);
         else
             SharedContext.getInstance().getLogger().error("AbstractPacket", "Unable to find packet " + opcode + " with sender guid: " + sguid);
         return packet;
@@ -57,16 +54,15 @@ public abstract class AbstractPacket {
     /**
      * Вызывается при приёме пакета, в этом методе производим вычитывание из буфера данных
      */
-    public abstract void onRead(ChannelBuffer buffer, PacketCheckpointHandler checkpointHandler);
+    public abstract void onRead(ChannelBuffer buffer);
 
     /**
      * Вызывается при отсылке пакета, в этом методе производим запись в буфер данных
      */
     public abstract void onSend(ChannelBuffer buffer);
 
-    public static String readString(ChannelBuffer buffer, PacketCheckpointHandler checkpointHandler) {
+    public static String readString(ChannelBuffer buffer) {
         int length = buffer.readShort();
-        checkpointHandler.onCheckpoint();
         byte[] buf = new byte[length];
         buffer.readBytes(buf);
         SharedContext.getInstance().getLogger().debug("AbstractPacket", "readed: " + bytesToHex(buf));

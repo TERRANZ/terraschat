@@ -5,10 +5,16 @@ import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.handler.codec.replay.ReplayingDecoder;
-import org.jboss.netty.handler.codec.replay.VoidEnum;
 import ru.terra.tschat.shared.packet.AbstractPacket;
 
-public class PacketFrameDecoder extends ReplayingDecoder<VoidEnum> {
+public class PacketFrameDecoder extends ReplayingDecoder<DecoderState> {
+
+    private int length;
+
+    public PacketFrameDecoder() {
+        super(DecoderState.HEADER);
+    }
+
     @Override
     public void channelClosed(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
         ctx.sendUpstream(e);
@@ -20,12 +26,17 @@ public class PacketFrameDecoder extends ReplayingDecoder<VoidEnum> {
     }
 
     @Override
-    protected Object decode(ChannelHandlerContext arg0, Channel arg1, ChannelBuffer buffer, VoidEnum e) throws Exception {
-        return AbstractPacket.read(buffer, new PacketCheckpointHandler() {
-            @Override
-            public void onCheckpoint() {
-                PacketFrameDecoder.this.checkpoint();
-            }
-        });
+    protected Object decode(ChannelHandlerContext arg0, Channel arg1, ChannelBuffer buffer, DecoderState e) throws Exception {
+        switch (getState()) {
+            case HEADER:
+                length = buffer.readInt();
+                checkpoint(DecoderState.CONTENT);
+                break;
+            case CONTENT:
+                AbstractPacket ret = AbstractPacket.read(buffer.readBytes(length));
+                checkpoint(DecoderState.HEADER);
+                return ret;
+        }
+        return null;
     }
 }

@@ -1,7 +1,6 @@
 package ru.terra.tschat.shared.entity;
 
 import org.jboss.netty.buffer.ChannelBuffer;
-import ru.terra.tschat.interserver.network.netty.PacketCheckpointHandler;
 import ru.terra.tschat.shared.packet.AbstractPacket;
 
 import java.util.ArrayList;
@@ -48,14 +47,10 @@ public class UserInfo {
             buffer.writeLong(c);
     }
 
-    public void readUserInfo(ChannelBuffer buffer, PacketCheckpointHandler checkpointHandler) {
+    public void readUserInfo(ChannelBuffer buffer) {
         UID = buffer.readLong();
-        checkpointHandler.onCheckpoint();
-        name = AbstractPacket.readString(buffer, checkpointHandler);
-        checkpointHandler.onCheckpoint();
-        for (int i = 0; i < buffer.readInt(); i++) {
+        name = AbstractPacket.readString(buffer);
+        for (int i = 0; i < buffer.readInt(); i++)
             contacts.add(buffer.readLong());
-            checkpointHandler.onCheckpoint();
-        }
     }
 }

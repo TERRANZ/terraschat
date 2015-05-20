@@ -1,7 +1,6 @@
 package ru.terra.tschat.shared.packet.server.chat;
 
 import org.jboss.netty.buffer.ChannelBuffer;
-import ru.terra.tschat.interserver.network.netty.PacketCheckpointHandler;
 import ru.terra.tschat.shared.annoations.Packet;
 import ru.terra.tschat.shared.constants.OpCodes;
 import ru.terra.tschat.shared.packet.AbstractPacket;
@@ -40,13 +39,10 @@ public class ChatMessagePacket extends AbstractPacket {
     }
 
     @Override
-    public void onRead(ChannelBuffer buffer, PacketCheckpointHandler checkpointHandler) {
+    public void onRead(ChannelBuffer buffer) {
         from = buffer.readLong();
-        checkpointHandler.onCheckpoint();
         to = buffer.readLong();
-        checkpointHandler.onCheckpoint();
-        msg = readString(buffer, checkpointHandler);
-        checkpointHandler.onCheckpoint();
+        msg = readString(buffer);
     }
 
     @Override

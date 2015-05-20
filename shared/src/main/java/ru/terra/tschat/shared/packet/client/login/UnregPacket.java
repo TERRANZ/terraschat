@@ -1,7 +1,6 @@
 package ru.terra.tschat.shared.packet.client.login;
 
 import org.jboss.netty.buffer.ChannelBuffer;
-import ru.terra.tschat.interserver.network.netty.PacketCheckpointHandler;
 import ru.terra.tschat.shared.annoations.Packet;
 import ru.terra.tschat.shared.constants.OpCodes;
 import ru.terra.tschat.shared.packet.AbstractPacket;
@@ -15,11 +14,9 @@ public class UnregPacket extends AbstractPacket {
     private String login = "", password = "";
 
     @Override
-    public void onRead(ChannelBuffer buffer, PacketCheckpointHandler checkpointHandler) {
-        login = readString(buffer, checkpointHandler);
-        checkpointHandler.onCheckpoint();
-        password = readString(buffer, checkpointHandler);
-        checkpointHandler.onCheckpoint();
+    public void onRead(ChannelBuffer buffer) {
+        login = readString(buffer);
+        password = readString(buffer);
     }
 
     @Override
