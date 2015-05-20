@@ -42,15 +42,15 @@ public class UserInfo {
     public void writeUserInfo(ChannelBuffer buffer) {
         buffer.writeLong(UID);
         AbstractPacket.writeString(buffer, name);
-        buffer.writeInt(contacts.size());
-        for (Long c : contacts)
-            buffer.writeLong(c);
+//        buffer.writeInt(contacts.size());
+//        for (Long c : contacts)
+//            buffer.writeLong(c);
     }
 
     public void readUserInfo(ChannelBuffer buffer) {
         UID = buffer.readLong();
         name = AbstractPacket.readString(buffer);
-        for (int i = 0; i < buffer.readInt(); i++)
-            contacts.add(buffer.readLong());
+//        for (int i = 0; i < buffer.readInt(); i++)
+//            contacts.add(buffer.readLong());
     }
 }

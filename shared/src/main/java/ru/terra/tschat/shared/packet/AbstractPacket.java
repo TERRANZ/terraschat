@@ -32,7 +32,7 @@ public abstract class AbstractPacket {
     }
 
     public static AbstractPacket read(ChannelBuffer buffer) throws IOException {
-        Integer opcode = buffer.readUnsignedShort();
+        Integer opcode = buffer.readInt();
         Long sguid = buffer.readLong();
         AbstractPacket packet = PacketFactory.getInstance().getPacket(opcode, sguid);
         if (packet != null)
@@ -43,7 +43,7 @@ public abstract class AbstractPacket {
     }
 
     public static AbstractPacket write(AbstractPacket packet, ChannelBuffer buffer) {
-        buffer.writeChar(packet.getOpCode());
+        buffer.writeInt(packet.getOpCode());
         buffer.writeLong(packet.getSender());
         packet.onSend(buffer);
         return packet;
@@ -65,7 +65,7 @@ public abstract class AbstractPacket {
         int length = buffer.readShort();
         byte[] buf = new byte[length];
         buffer.readBytes(buf);
-        SharedContext.getInstance().getLogger().debug("AbstractPacket", "readed: " + bytesToHex(buf));
+//        SharedContext.getInstance().getLogger().debug("AbstractPacket", "readed: " + bytesToHex(buf));
         String text = "";
         try {
 //            text = SimpleCrypto.decrypt("this is a key", buf);
@@ -83,7 +83,7 @@ public abstract class AbstractPacket {
 //            byte[] encryptedData = SimpleCrypto.encrypt("this is a key", text);
             byte[] encryptedData = text.getBytes(Charset.forName("UTF-8"));
             buffer.writeShort(encryptedData.length);
-            SharedContext.getInstance().getLogger().debug("AbstractPacket", "written: " + bytesToHex(encryptedData));
+//            SharedContext.getInstance().getLogger().debug("AbstractPacket", "written: " + bytesToHex(encryptedData));
             buffer.writeBytes(encryptedData);
         } catch (Exception e) {
             SharedContext.getInstance().getLogger().error("AbstractPacket", "Unable to encode and send string " + text, e);

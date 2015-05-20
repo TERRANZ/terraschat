@@ -60,7 +60,7 @@ public class Main {
         @Override
         public void run() {
             ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.INIT);
-            NetworkManager.getInstance().start(ClientWorker.class, "terranz.ath.cx", 12345);
+            NetworkManager.getInstance().start(ClientWorker.class, "127.0.0.1", 12345);
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {

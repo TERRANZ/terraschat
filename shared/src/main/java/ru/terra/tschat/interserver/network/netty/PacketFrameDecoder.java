@@ -5,11 +5,13 @@ import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.handler.codec.replay.ReplayingDecoder;
+import ru.terra.tschat.shared.context.SharedContext;
 import ru.terra.tschat.shared.packet.AbstractPacket;
 
 public class PacketFrameDecoder extends ReplayingDecoder<DecoderState> {
 
     private int length;
+
 
     public PacketFrameDecoder() {
         super(DecoderState.HEADER);
@@ -33,6 +35,7 @@ public class PacketFrameDecoder extends ReplayingDecoder<DecoderState> {
                 checkpoint(DecoderState.CONTENT);
                 break;
             case CONTENT:
+                SharedContext.getInstance().getLogger().error("PacketFrameDecoder", "Reading " + length + " readable bytes " + buffer.readableBytes());
                 AbstractPacket ret = AbstractPacket.read(buffer.readBytes(length));
                 checkpoint(DecoderState.HEADER);
                 return ret;
