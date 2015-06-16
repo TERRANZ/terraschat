@@ -6,7 +6,7 @@ import ru.terra.tschat.shared.constants.OpCodes;
 import ru.terra.tschat.shared.entity.UserInfo;
 import ru.terra.tschat.shared.packet.AbstractPacket;
 
-@Packet(opCode = OpCodes.Server.SMSG_CHAR_BOOT)
+@Packet(opCode = OpCodes.Server.SMSG_USER_BOOT)
 public class UserBootPacket extends AbstractPacket {
 
     private UserInfo playerInfo = new UserInfo();

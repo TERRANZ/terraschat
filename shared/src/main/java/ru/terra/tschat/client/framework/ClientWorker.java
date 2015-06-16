@@ -43,16 +43,16 @@ public class ClientWorker extends InterserverWorker {
                     case LOGGED_IN:
                         ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.IN_CHAT);
                         break;
-                    case CHAR_BOOT:
+                    case USER_BOOT:
                         break;
                     case IN_CHAT:
                         break;
                 }
             }
             break;
-            case OpCodes.Server.SMSG_CHAR_BOOT: {
+            case OpCodes.Server.SMSG_USER_BOOT: {
                 ClientManager.getInstance().setUserInfo(((UserBootPacket) packet).getPlayerInfo());
-                ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.CHAR_BOOT);
+                ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.USER_BOOT);
             }
             break;
             case OpCodes.Server.Login.SMSG_LOGIN_FAILED: {

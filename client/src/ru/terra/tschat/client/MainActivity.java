@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
             }
             if (prefs.getBoolean(getString(R.string.loggedIn), false)) {
                 lbm.sendBroadcast(new Intent(ChatService.CHAT_SERVICE_RECEIVER).putExtra(ChatService.PARAM_DO, ChatService.DO_LOGIN));
-                while (!ClientStateHolder.getInstance().getClientState().equals(ClientStateHolder.ClientState.LOGGED_IN)) {
+                while (ClientStateHolder.getInstance().getClientState().ordinal() >= ClientStateHolder.ClientState.LOGGED_IN.ordinal()) {
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {

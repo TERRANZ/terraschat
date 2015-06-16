@@ -11,6 +11,7 @@ import ru.terra.tschat.shared.packet.AbstractPacket;
 public class PacketFrameDecoder extends ReplayingDecoder<DecoderState> {
 
     private int length;
+    private int opcode;
 
 
     public PacketFrameDecoder() {
@@ -31,12 +32,13 @@ public class PacketFrameDecoder extends ReplayingDecoder<DecoderState> {
     protected Object decode(ChannelHandlerContext arg0, Channel arg1, ChannelBuffer buffer, DecoderState e) throws Exception {
         switch (getState()) {
             case HEADER:
+                opcode = buffer.readInt();
                 length = buffer.readInt();
                 checkpoint(DecoderState.CONTENT);
                 break;
             case CONTENT:
-                SharedContext.getInstance().getLogger().error("PacketFrameDecoder", "Reading " + length + " readable bytes " + buffer.readableBytes());
-                AbstractPacket ret = AbstractPacket.read(buffer.readBytes(length));
+                SharedContext.getInstance().getLogger().debug("PacketFrameDecoder", "Reading opode: " + opcode + " len: " + length);
+                AbstractPacket ret = AbstractPacket.read(opcode, buffer.readBytes(length));
                 checkpoint(DecoderState.HEADER);
                 return ret;
         }

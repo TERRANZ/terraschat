@@ -35,7 +35,7 @@ public interface OpCodes {
 
     public interface Server {
         public static final int SMSG_OK = 501;
-        public static final int SMSG_CHAR_BOOT = 502;
+        public static final int SMSG_USER_BOOT = 502;
         public static final int SMSG_UPDATE = 503;
 
         public interface Chat {

@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.*;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.widget.Toast;
 import ru.terra.tschat.client.R;
 import ru.terra.tschat.client.framework.ClientStateChangeNotifier;
 import ru.terra.tschat.client.framework.ClientStateHolder;
@@ -95,6 +96,8 @@ public class ChatService extends IntentService {
     private class MyClientStateChangeNotifier implements ClientStateChangeNotifier {
         @Override
         public void onClientStateChange(ClientStateHolder.ClientState oldgs, ClientStateHolder.ClientState newgs) {
+//            Toast.makeText(ChatService.this, "Changing state from " + oldgs.name() + " to " + newgs.name(), Toast.LENGTH_SHORT).show();
+
             if (newgs.equals(ClientStateHolder.ClientState.LOGGED_IN)) {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean(getString(R.string.loggedIn), true);

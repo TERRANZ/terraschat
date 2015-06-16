@@ -5,7 +5,7 @@ public class ClientStateHolder {
     private ClientStateChangeNotifier notifier;
 
     public static enum ClientState {
-        INIT, LOGIN, LOGGED_IN, CHAR_BOOT, IN_CHAT;
+        INIT, LOGIN, LOGGED_IN, USER_BOOT, IN_CHAT;
     }
 
     private ClientState clientState = ClientState.INIT;

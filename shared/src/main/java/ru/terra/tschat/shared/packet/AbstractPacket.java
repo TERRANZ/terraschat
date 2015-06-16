@@ -31,8 +31,7 @@ public abstract class AbstractPacket {
         this.opCode = id;
     }
 
-    public static AbstractPacket read(ChannelBuffer buffer) throws IOException {
-        Integer opcode = buffer.readInt();
+    public static AbstractPacket read(int opcode, ChannelBuffer buffer) throws IOException {
         Long sguid = buffer.readLong();
         AbstractPacket packet = PacketFactory.getInstance().getPacket(opcode, sguid);
         if (packet != null)
@@ -43,7 +42,7 @@ public abstract class AbstractPacket {
     }
 
     public static AbstractPacket write(AbstractPacket packet, ChannelBuffer buffer) {
-        buffer.writeInt(packet.getOpCode());
+//        buffer.writeInt(packet.getOpCode());
         buffer.writeLong(packet.getSender());
         packet.onSend(buffer);
         return packet;
