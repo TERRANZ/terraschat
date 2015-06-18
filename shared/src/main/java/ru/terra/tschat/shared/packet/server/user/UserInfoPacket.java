@@ -14,6 +14,13 @@ import ru.terra.tschat.shared.packet.AbstractPacket;
 public class UserInfoPacket extends AbstractPacket {
     private UserInfo userInfo;
 
+    public UserInfoPacket() {
+    }
+
+    public UserInfoPacket(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
     public UserInfo getUserInfo() {
         return userInfo;
     }

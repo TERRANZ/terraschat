@@ -9,6 +9,7 @@ import ru.terra.tschat.shared.packet.client.contacts.AddContactPacket;
 import ru.terra.tschat.shared.packet.interserver.HelloPacket;
 import ru.terra.tschat.shared.packet.interserver.RegisterPacket;
 import ru.terra.tschat.shared.packet.server.UserBootPacket;
+import ru.terra.tschat.shared.packet.server.user.UserInfoPacket;
 import ru.terra.tschat.shared.persistance.UserLoader;
 import ru.terra.tschat.shared.persistance.UserSaver;
 import ru.terra.tschat.shared.persistance.impl.JsonUserLoaderImpl;
@@ -67,7 +68,9 @@ public class UsersWorker extends InterserverWorker {
             }
             break;
             case OpCodes.Client.User.CMSG_GET_CONTACTS: {
-                handler.getContacts(getUser(packet.getSender()));
+                for (UserInfo ui : handler.getContacts(getUser(packet.getSender()))) {
+                    networkManager.sendPacket(new UserInfoPacket(ui));
+                }
             }
             break;
             case OpCodes.Client.User.CMSG_ADD_CONTACT: {
