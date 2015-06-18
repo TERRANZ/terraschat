@@ -52,6 +52,11 @@
             <artifactId>support-v4</artifactId>
             <version>r7</version>
         </dependency>
+        <dependency>
+            <groupId>org.roboguice</groupId>
+            <artifactId>roboguice</artifactId>
+            <version>2.0</version>
+        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>src</sourceDirectory>

@@ -5,8 +5,8 @@
           android:versionName="1.0">
 
     <uses-sdk
-            android:minSdkVersion="14"
-            android:targetSdkVersion="19"/>
+            android:minSdkVersion="16"
+            android:targetSdkVersion="20"/>
 
     <application
             android:name=".TSChatApplication"
@@ -29,6 +29,10 @@
         <activity android:name=".activity.LoginActivity"/>
         <activity android:name=".activity.RegActivity"/>
         <service android:name=".service.ChatService"/>
+        <provider
+                android:name=".storage.ProjectContentProvider"
+                android:authorities="ru.terra.tschat.client.storage.entity">
+        </provider>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA"/>

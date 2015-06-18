@@ -9,23 +9,23 @@ import ru.terra.tschat.shared.packet.AbstractPacket;
 @Packet(opCode = OpCodes.Server.SMSG_USER_BOOT)
 public class UserBootPacket extends AbstractPacket {
 
-    private UserInfo playerInfo = new UserInfo();
+    private UserInfo userInfo = new UserInfo();
 
     @Override
     public void onRead(ChannelBuffer buffer) {
-        playerInfo.readUserInfo(buffer);
+        userInfo.readUserInfo(buffer);
     }
 
     @Override
     public void onSend(ChannelBuffer buffer) {
-        playerInfo.writeUserInfo(buffer);
+        userInfo.writeUserInfo(buffer);
     }
 
-    public UserInfo getPlayerInfo() {
-        return playerInfo;
+    public UserInfo getUserInfo() {
+        return userInfo;
     }
 
     public void setUserInfo(UserInfo playerInfo) {
-        this.playerInfo = playerInfo;
+        this.userInfo = playerInfo;
     }
 }

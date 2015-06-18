@@ -2,6 +2,7 @@ package ru.terra.tschat.client.framework;
 
 import ru.terra.tschat.client.chat.ChatHandler;
 import ru.terra.tschat.client.network.GUIDHOlder;
+import ru.terra.tschat.client.network.NetworkHelper;
 import ru.terra.tschat.interserver.network.NetworkManager;
 import ru.terra.tschat.interserver.network.netty.InterserverWorker;
 import ru.terra.tschat.shared.constants.OpCodes;
@@ -11,6 +12,10 @@ import ru.terra.tschat.shared.packet.client.BootMePacket;
 import ru.terra.tschat.shared.packet.server.LoginFailedPacket;
 import ru.terra.tschat.shared.packet.server.UserBootPacket;
 import ru.terra.tschat.shared.packet.server.chat.ChatMessagePacket;
+import ru.terra.tschat.shared.packet.server.user.UserContactsPacket;
+import ru.terra.tschat.shared.packet.server.user.UserInfoPacket;
+
+import java.util.List;
 
 /**
  * User: Vadim Korostelev
@@ -51,21 +56,27 @@ public class ClientWorker extends InterserverWorker {
             }
             break;
             case OpCodes.Server.SMSG_USER_BOOT: {
-                ClientManager.getInstance().setUserInfo(((UserBootPacket) packet).getPlayerInfo());
+                ClientManager.getInstance().setUserInfo(((UserBootPacket) packet).getUserInfo());
                 ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.USER_BOOT);
             }
             break;
-            case OpCodes.Server.Login.SMSG_LOGIN_FAILED: {
+            case OpCodes.Server.Login.SMSG_LOGIN_FAILED:
                 SharedContext.getInstance().getLogger().error("ClientWorker", "Unable to login: " + ((LoginFailedPacket) packet).getReason());
-            }
-            break;
-            case OpCodes.Server.Chat.SMSG_CHAT_MESSAGE: {
+                break;
+            case OpCodes.Server.Chat.SMSG_CHAT_MESSAGE:
                 ChatHandler.getInstance().notify((ChatMessagePacket) packet);
-            }
-            break;
+                break;
             case OpCodes.Server.User.SMSG_USER_CONTACTS: {
+                List<Long> contacts = ((UserContactsPacket) packet).getContacts();
+                if (contacts.size() > 0)
+                    for (Long uid : contacts)
+                        NetworkHelper.sendUserInfoRequest(uid);
             }
             break;
+            case OpCodes.Server.User.SMSG_CONTACT_INFO:
+                ClientManager.getInstance().getContacts().add(((UserInfoPacket) packet).getUserInfo());
+                ClientManager.getInstance().event(ClientManagerNotifier.ClientManagerEvent.CONTACT_INFO);
+                break;
         }
     }
 }

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
+import roboguice.activity.RoboActivity;
 import ru.terra.tschat.client.activity.ChatActivity;
 import ru.terra.tschat.client.activity.LoginActivity;
 import ru.terra.tschat.client.activity.RegActivity;
@@ -19,7 +20,7 @@ import ru.terra.tschat.client.service.ChatService;
  * Date: 24.06.14
  * Time: 18:08
  */
-public class MainActivity extends Activity {
+public class MainActivity extends RoboActivity {
 
     private LocalBroadcastManager lbm;
     private SharedPreferences prefs;

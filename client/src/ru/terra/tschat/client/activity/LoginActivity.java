@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.EditText;
+import roboguice.activity.RoboActivity;
 import ru.terra.tschat.client.R;
 import ru.terra.tschat.client.service.ChatService;
 
@@ -15,7 +16,7 @@ import ru.terra.tschat.client.service.ChatService;
  * Date: 20.03.15
  * Time: 22:35
  */
-public class LoginActivity extends Activity {
+public class LoginActivity extends RoboActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
