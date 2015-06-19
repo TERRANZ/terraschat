@@ -60,14 +60,15 @@ public class Main {
         @Override
         public void run() {
             ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.INIT);
-            NetworkManager.getInstance().start(ClientWorker.class, "127.0.0.1", 12345);
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            NetworkManager.getInstance().start(ClientWorker.class, "terranout.ath.cx", 12345);
+            while (!ClientStateHolder.getInstance().getClientState().equals(ClientStateHolder.ClientState.LOGIN))
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-            ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.LOGIN);
+//            ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.LOGIN);
             LoginPacket loginPacket = new LoginPacket();
             loginPacket.setLogin(UUID.randomUUID().toString());
             loginPacket.setPassword(UUID.randomUUID().toString());
@@ -77,7 +78,7 @@ public class Main {
 
             while (true) {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

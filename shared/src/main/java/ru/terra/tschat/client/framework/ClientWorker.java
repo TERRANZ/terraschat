@@ -36,9 +36,12 @@ public class ClientWorker extends InterserverWorker {
                 SharedContext.getInstance().getLogger().error("ClientWorker", "server said OK when client state: " + clientState.name());
                 switch (clientState) {
                     case INIT:
+                        SharedContext.getInstance().getLogger().debug("ClientWorker", "INIT with guid " + packet.getSender());
                         GUIDHOlder.getInstance().setGuid(packet.getSender());
+                        ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.LOGIN);
                         break;
                     case LOGIN:
+                        SharedContext.getInstance().getLogger().debug("ClientWorker", "LOGIN with guid " + packet.getSender());
                         GUIDHOlder.getInstance().setGuid(packet.getSender());
                         BootMePacket bootMePacket = new BootMePacket();
                         bootMePacket.setSender(packet.getSender());

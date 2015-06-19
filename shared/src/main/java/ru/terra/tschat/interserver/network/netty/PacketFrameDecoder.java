@@ -37,7 +37,7 @@ public class PacketFrameDecoder extends ReplayingDecoder<DecoderState> {
                 checkpoint(DecoderState.CONTENT);
                 break;
             case CONTENT:
-                SharedContext.getInstance().getLogger().debug("PacketFrameDecoder", "Reading opode: " + opcode + " len: " + length);
+//                SharedContext.getInstance().getLogger().debug("PacketFrameDecoder", "Reading opode: " + opcode + " len: " + length);
                 AbstractPacket ret = AbstractPacket.read(opcode, buffer.readBytes(length));
                 checkpoint(DecoderState.HEADER);
                 return ret;

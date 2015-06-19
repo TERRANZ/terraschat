@@ -20,7 +20,7 @@ public class PacketFrameEncoder extends OneToOneEncoder {
         ChannelBuffer outBuffer = ChannelBuffers.directBuffer(Integer.BYTES + Integer.BYTES + packetBuffer.readableBytes());
         outBuffer.writeInt(p.getOpCode());
         outBuffer.writeInt(packetBuffer.readableBytes());//size
-        SharedContext.getInstance().getLogger().debug("PacketFrameEncoder", "Writing opcode: " + p.getOpCode() + " len: " + packetBuffer.readableBytes());
+//        SharedContext.getInstance().getLogger().debug("PacketFrameEncoder", "Writing opcode: " + p.getOpCode() + " len: " + packetBuffer.readableBytes());
         outBuffer.writeBytes(packetBuffer);//content
         return outBuffer;
     }
