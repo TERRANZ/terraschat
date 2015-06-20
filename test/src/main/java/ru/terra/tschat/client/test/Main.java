@@ -78,11 +78,11 @@ public class Main {
 
             while (true) {
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(250);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                ClientSayPacket packet = new ClientSayPacket(new Date().toString(), 0L);
+                ClientSayPacket packet = new ClientSayPacket(GUIDHOlder.getInstance().getGuid() + " : " + new Date().toString(), 0L);
                 packet.setSender(GUIDHOlder.getInstance().getGuid());
                 NetworkManager.getInstance().sendPacket(packet);
             }
