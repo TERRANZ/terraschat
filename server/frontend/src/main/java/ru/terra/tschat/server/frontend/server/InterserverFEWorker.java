@@ -6,6 +6,7 @@ import ru.terra.tschat.server.frontend.network.netty.ServerWorker;
 import ru.terra.tschat.shared.constants.OpCodes;
 import ru.terra.tschat.shared.packet.AbstractPacket;
 import ru.terra.tschat.shared.packet.interserver.HelloPacket;
+import ru.terra.tschat.shared.packet.interserver.PingPacket;
 import ru.terra.tschat.shared.packet.interserver.RegisterPacket;
 import ru.terra.tschat.shared.packet.interserver.UserRegPacket;
 
@@ -67,6 +68,10 @@ public class InterserverFEWorker extends ServerWorker {
                     Channel chan = usersHolder.getUserChannel(oldId);
                     usersHolder.deleteUserChannel(chan);
                     usersHolder.addUserChannel(packet.getSender(), chan);
+                }
+                break;
+                case OpCodes.InterServer.ISMSG_PING: {
+                    log.info("Received ping: " + ((PingPacket) packet).getTs());
                 }
                 break;
             }

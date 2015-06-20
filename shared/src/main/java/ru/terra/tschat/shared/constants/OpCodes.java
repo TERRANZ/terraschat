@@ -60,6 +60,6 @@ public interface OpCodes {
         public static final int ISMSG_USER_REG = 10005;
         public static final int ISMSG_UNREG_USER = 10008;
         public static final int ISMSG_UPDATE_USER = 10010;
-
+        public static final int ISMSG_PING = 10011;
     }
 }
