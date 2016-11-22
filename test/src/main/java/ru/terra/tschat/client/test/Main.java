@@ -60,7 +60,7 @@ public class Main {
         @Override
         public void run() {
             ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.INIT);
-            NetworkManager.getInstance().start(ClientWorker.class, "terranout.ath.cx", 12345);
+            NetworkManager.getInstance().start(ClientWorker.class, "127.0.0.1", 12345);
             while (!ClientStateHolder.getInstance().getClientState().equals(ClientStateHolder.ClientState.LOGIN))
                 try {
                     Thread.sleep(500);

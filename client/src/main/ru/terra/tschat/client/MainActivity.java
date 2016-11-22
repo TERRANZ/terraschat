@@ -1,6 +1,5 @@
 package ru.terra.tschat.client;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import roboguice.activity.RoboActivity;
 import ru.terra.tschat.client.activity.ChatActivity;
@@ -74,7 +74,7 @@ public class MainActivity extends RoboActivity {
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Log.e("MainActivity", "", e);
                     }
                 }
                 startActivity(new Intent(MainActivity.this, ChatActivity.class));
