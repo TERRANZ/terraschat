@@ -36,7 +36,7 @@ public class LoginWorker extends InterserverWorker {
             }
             break;
             case OpCodes.InterServer.ISMSG_UNREG_USER: {
-                logger.info("Unregistering char with uid = " + packet.getSender());
+                logger.info("Unregistering user with uid = " + packet.getSender());
             }
             break;
 

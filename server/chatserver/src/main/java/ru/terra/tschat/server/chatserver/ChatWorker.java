@@ -48,7 +48,7 @@ public class ChatWorker extends InterserverWorker {
             break;
             case OpCodes.Client.Chat.CMSG_SAY: {
                 ClientSayPacket clientSayPacket = (ClientSayPacket) packet;
-                log.info("Player " + packet.getSender() + " says: " + clientSayPacket.getMessage() + " to: " + clientSayPacket.getTo());
+                log.info("User " + packet.getSender() + " says: " + clientSayPacket.getMessage() + " to: " + clientSayPacket.getTo());
                 for (Long uid : users) {
                     ChatMessagePacket chatMessagePacket = new ChatMessagePacket();
                     chatMessagePacket.setFrom(packet.getSender());
