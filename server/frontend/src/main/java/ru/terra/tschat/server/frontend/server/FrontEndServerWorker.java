@@ -5,6 +5,7 @@ import org.jboss.netty.channel.Channel;
 import ru.terra.tschat.server.frontend.network.netty.ServerWorker;
 import ru.terra.tschat.shared.constants.OpCodes;
 import ru.terra.tschat.shared.packet.AbstractPacket;
+import ru.terra.tschat.shared.packet.interserver.PingPacket;
 import ru.terra.tschat.shared.packet.interserver.UnregCharPacket;
 import ru.terra.tschat.shared.packet.server.OkPacket;
 
@@ -36,17 +37,20 @@ public class FrontEndServerWorker extends ServerWorker {
     }
 
     @Override
-    public void acceptPacket(AbstractPacket message) {
-//        logger.info("Received packet " + message.getOpCode());
-        Channel interchan = channelsHolder.getChannel(message.getOpCode());
+    public void acceptPacket(AbstractPacket packet) {
+//        logger.info("Received packet " + packet.getOpCode());
+        Channel interchan = channelsHolder.getChannel(packet.getOpCode());
         if (interchan != null)
             try {
-                interchan.write(message);
+                interchan.write(packet);
             } catch (Exception e) {
                 logger.error("Channel closed", e);
             }
         else {
-            logger.error("Unable to find interserver for opcode " + message.getOpCode());
+            if (packet.getOpCode() == OpCodes.InterServer.ISMSG_PING) {
+                logger.info("Received ping: " + ((PingPacket) packet).getTs());
+            } else
+                logger.error("Unable to find interserver for opcode " + packet.getOpCode());
         }
     }
 
