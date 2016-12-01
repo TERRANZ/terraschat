@@ -46,7 +46,6 @@ public class JsonUserLoaderImpl extends FilePersister implements UserLoader {
 
     @Override
     public Long findUser(String login, String pass) {
-        //TODO:
         Long uid = UUID.randomUUID().getLeastSignificantBits();
         return uid;
     }

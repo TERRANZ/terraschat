@@ -9,9 +9,9 @@ import java.util.List;
  * Time: 14:34
  */
 public interface UserLoader {
-    public UserInfo loadUser(Long uid);
+    UserInfo loadUser(Long uid);
 
-    public List<UserInfo> loadUsers();
+    List<UserInfo> loadUsers();
 
-    public Long findUser(String login, String pass);
+    Long findUser(String login, String pass);
 }

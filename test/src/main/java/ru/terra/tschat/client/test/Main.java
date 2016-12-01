@@ -60,7 +60,7 @@ public class Main {
         @Override
         public void run() {
             ClientStateHolder.getInstance().setClientState(ClientStateHolder.ClientState.INIT);
-            NetworkManager.getInstance().start(ClientWorker.class, "127.0.0.1", 12345);
+            NetworkManager.getInstance().start(ClientWorker.class, "46.36.222.173", 12345);
             while (!ClientStateHolder.getInstance().getClientState().equals(ClientStateHolder.ClientState.LOGIN))
                 try {
                     Thread.sleep(500);
@@ -78,7 +78,7 @@ public class Main {
 
             while (true) {
                 try {
-                    Thread.sleep(250);
+                    Thread.sleep(15000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

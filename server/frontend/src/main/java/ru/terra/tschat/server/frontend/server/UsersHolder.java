@@ -33,7 +33,7 @@ public class UsersHolder {
             logger.error("Channel is null");
         if (userUID == null)
             logger.error("userUID is null");
-        logger.info("Adding channel " + channel.getId() + " for user " + userUID);
+        logger.info("Adding channel " + channel.getId() + " for user " + userUID);\
         users.put(userUID, channel);
     }
 
